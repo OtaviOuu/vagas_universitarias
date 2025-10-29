@@ -1,4 +1,4 @@
-defmodule VagasUniversitariasWeb.VagasLive.New do
+defmodule VagasUniversitariasWeb.EmpresasLive.New do
   use VagasUniversitariasWeb, :live_view
 
   alias VagasUniversitarias.Vagas
@@ -6,12 +6,12 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
   on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_admin_required}
 
   def mount(_params, _session, socket) do
-    new_vaga_form = Vagas.form_to_create_vaga(actor: socket.assigns.current_user) |> to_form
+    new_empresa_form = Vagas.form_to_create_empresa(actor: socket.assigns.current_user) |> to_form
 
     socket =
       socket
-      |> assign(page_title: "Publicar Nova Vaga")
-      |> assign(new_vaga_form: new_vaga_form)
+      |> assign(page_title: "Criar Nova Empresa")
+      |> assign(new_empresa_form: new_empresa_form)
 
     {:ok, socket}
   end
@@ -21,58 +21,29 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
     <Layouts.app {assigns}>
       <div class="max-w-3xl mx-auto">
         <div class="mb-6">
-          <h1 class="text-3xl font-bold">Publicar Nova Vaga</h1>
+          <h1 class="text-3xl font-bold">Criar Nova Empresa</h1>
         </div>
 
         <div class="card bg-base-100 shadow-xl">
           <div class="card-body">
-            <.form for={@new_vaga_form} phx-submit="save" class="space-y-6">
-              <!-- Título -->
+            <.form for={@new_empresa_form} phx-submit="save" class="space-y-6">
               <div class="form-control">
                 <.input
                   type="text"
-                  field={@new_vaga_form[:titulo]}
-                  label="Título da Vaga"
-                  placeholder="Ex: Estágio em Desenvolvimento de Software"
+                  field={@new_empresa_form[:nome]}
+                  label="Título da Empresa"
+                  placeholder="Ex: Empresa XYZ"
                   class="input input-bordered w-full"
                 />
               </div>
 
               <div class="form-control">
                 <.input
-                  type="select"
-                  field={@new_vaga_form[:tipo]}
-                  label="Tipo de Vaga"
-                  class="select select-bordered w-full"
-                  options={[
-                    Estágio: :estagio,
-                    Emprego: :emprego,
-                    Trainee: :trainee
-                  ]}
-                />
-              </div>
-
-              <div class="form-control">
-                <.input
                   type="text"
-                  field={@new_vaga_form[:pdf]}
-                  label="PDF da Vaga"
-                  placeholder="Link para o PDF da Vaga"
+                  field={@new_empresa_form[:logo_url]}
+                  label="Logo da Empresa"
+                  placeholder="URL do logo da empresa"
                   class="input input-bordered w-full"
-                />
-              </div>
-
-              <div class="form-control">
-                <.input
-                  type="select"
-                  field={@new_vaga_form[:empresa_id]}
-                  label="Empresa"
-                  class="select select-bordered w-full"
-                  options={
-                    for empresa <- Vagas.list_empresas!() do
-                      {empresa.nome, empresa.id}
-                    end
-                  }
                 />
               </div>
 
@@ -117,7 +88,7 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
   def handle_event("save", %{"form" => vaga_params}, socket) do
     IO.inspect(socket.assigns.current_user)
 
-    case AshPhoenix.Form.submit(socket.assigns.new_vaga_form,
+    case AshPhoenix.Form.submit(socket.assigns.new_empresa_form,
            params: vaga_params
          ) do
       {:ok, _vaga} ->
@@ -127,7 +98,7 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
          |> push_navigate(to: ~p"/vagas")}
 
       {:error, form} ->
-        {:noreply, assign(socket, new_vaga_form: to_form(form))}
+        {:noreply, assign(socket, new_empresa_form: to_form(form))}
     end
   end
 end

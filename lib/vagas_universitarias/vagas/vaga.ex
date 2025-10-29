@@ -6,13 +6,15 @@ defmodule VagasUniversitarias.Vagas.Vaga do
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshAuthentication]
 
+  alias VagasUniversitarias.Vagas.Empresa
+
   postgres do
     table "vagas"
     repo VagasUniversitarias.Repo
   end
 
   actions do
-    default_accept [:titulo, :tipo, :pdf]
+    default_accept [:titulo, :tipo, :pdf, :empresa_id]
     defaults [:read, :destroy, :create, :update]
   end
 
@@ -44,5 +46,9 @@ defmodule VagasUniversitarias.Vagas.Vaga do
     end
 
     timestamps()
+  end
+
+  relationships do
+    belongs_to :empresa, Empresa, allow_nil?: false
   end
 end

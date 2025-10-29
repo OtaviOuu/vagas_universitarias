@@ -6,7 +6,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
   on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_optional}
 
   def mount(_params, _session, socket) do
-    vagas = Vagas.list_vagas!()
+    vagas = Vagas.list_vagas!(load: [:empresa])
 
     socket =
       socket
@@ -28,6 +28,13 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
         >
           <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Vaga
         </.button>
+        <.button
+          :if={Vagas.can_create_vaga?(@current_user)}
+          phx-click={JS.navigate(~p"/empresas/new")}
+          class="btn btn-primary"
+        >
+          <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Empresa
+        </.button>
       </div>
       <content>
         <ul class="list bg-base-100 rounded-box shadow-md">
@@ -45,7 +52,9 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
               />
             </div>
             <div class="flex flex-col flex-1 gap-1">
-              <div>BTG: {vaga.titulo} - <span class="text-secondary">{vaga.tipo}</span></div>
+              <div>
+                {vaga.empresa.nome}: {vaga.titulo} - <span class="text-secondary">{vaga.tipo}</span>
+              </div>
               <div class="flex gap-2">
                 <div :for={_tags <- 1..3} class="badge badge-soft badge-secundary">tag</div>
               </div>
