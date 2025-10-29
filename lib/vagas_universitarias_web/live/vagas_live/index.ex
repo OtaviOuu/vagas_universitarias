@@ -6,7 +6,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
   on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_optional}
 
   def mount(_params, _session, socket) do
-    vagas = Vagas.list_vagas!(load: [:empresa])
+    vagas = Vagas.list_vagas!(load: [:empresa, :salario_reais])
 
     socket =
       socket
@@ -48,7 +48,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
             <div>
               <img
                 class="size-10 rounded-box"
-                src="https://play-lh.googleusercontent.com/0j6--RjOpm3uzR4GMCDK23w7X2wo2ePDzVy3wiYufzW_smS1smgldQ1aG3WQlhD2dMk=s48"
+                src={vaga.empresa.logo_url}
               />
             </div>
             <div class="flex flex-col flex-1 gap-1">
@@ -59,7 +59,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
                 <div :for={_tags <- 1..3} class="badge badge-soft badge-secundary">tag</div>
               </div>
             </div>
-            <div class="badge badge-soft badge-primary">R$ 2.500,00</div>
+            <div class="badge badge-soft badge-primary">R$ {vaga.salario_reais}</div>
             <div class="badge badge-outline">São Paulo - SP</div>
           </li>
         </ul>

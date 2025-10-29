@@ -7,14 +7,14 @@ defmodule VagasUniversitarias.Vagas.Vaga do
     extensions: [AshAuthentication]
 
   alias VagasUniversitarias.Vagas.Empresa
-
+  alias VagasUniversitarias.Vagas.Calculations.CentavosToReais
   postgres do
     table "vagas"
     repo VagasUniversitarias.Repo
   end
 
   actions do
-    default_accept [:titulo, :tipo, :pdf, :empresa_id]
+    default_accept [:titulo, :tipo, :pdf, :empresa_id, :salario_centavos]
     defaults [:read, :destroy, :create, :update]
   end
 
@@ -40,6 +40,10 @@ defmodule VagasUniversitarias.Vagas.Vaga do
       allow_nil? true
     end
 
+    attribute :salario_centavos, :integer do
+      allow_nil? true
+    end
+
     attribute :tipo, :atom do
       allow_nil? false
       constraints one_of: [:estagio, :emprego, :trainee]
@@ -50,5 +54,9 @@ defmodule VagasUniversitarias.Vagas.Vaga do
 
   relationships do
     belongs_to :empresa, Empresa, allow_nil?: false
+  end
+
+  calculations do
+    calculate :salario_reais, :string, CentavosToReais
   end
 end

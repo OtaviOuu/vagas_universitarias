@@ -4,7 +4,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
   alias VagasUniversitarias.Vagas
 
   def mount(%{"id" => id}, _session, socket) do
-    vaga = Vagas.get_vaga!(id)
+    vaga = Vagas.get_vaga!(id, load: [:empresa, :salario_reais])
     IO.inspect(vaga)
     {:ok, assign(socket, vaga: vaga)}
   end
@@ -19,13 +19,13 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
               <div class="flex items-start gap-4">
                 <img
                   class="size-16 rounded-box"
-                  src="https://play-lh.googleusercontent.com/0j6--RjOpm3uzR4GMCDK23w7X2wo2ePDzVy3wiYufzW_smS1smgldQ1aG3WQlhD2dMk=s48"
+                  src={@vaga.empresa.logo_url}
                 />
                 <div class="flex-1">
                   <h1 class="card-title text-2xl">{@vaga.titulo}</h1>
-                  <p class="text-lg opacity-80">BTG Pactual</p>
+                  <p class="text-lg opacity-80">{@vaga.empresa.nome}</p>
                   <div class="flex gap-2 mt-2">
-                    <div class="badge badge-soft badge-primary">R$ 2.500,00</div>
+                    <div class="badge badge-soft badge-primary">R$ {@vaga.salario_reais}</div>
                     <div class="badge badge-outline">São Paulo - SP</div>
                   </div>
                 </div>

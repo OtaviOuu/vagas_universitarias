@@ -30,6 +30,16 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
               <!-- Título -->
               <div class="form-control">
                 <.input
+                  type="number"
+                  field={@new_vaga_form[:salario_centavos]}
+                  label="Salário em Centavos"
+                  placeholder="Ex: 250000 para R$ 2.500,00"
+                  class="input input-bordered w-full"
+                />
+              </div>
+
+                        <div class="form-control">
+                <.input
                   type="text"
                   field={@new_vaga_form[:titulo]}
                   label="Título da Vaga"
