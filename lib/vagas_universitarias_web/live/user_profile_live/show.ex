@@ -1,6 +1,13 @@
 defmodule VagasUniversitariasWeb.UserProfileLive.Show do
   use VagasUniversitariasWeb, :live_view
 
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_required}
+
+  def mount(_params, _session, socket) do
+    IO.inspect(socket, label: "Current User in UserProfileLive.Show")
+    {:ok, socket}
+  end
+
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
@@ -16,10 +23,10 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
                 </div>
                 <div class="flex-1">
                   <div class="flex items-center gap-2">
-                    <h1 class="text-2xl font-bold">João Silva</h1>
+                    <h1 class="text-2xl font-bold">{@current_user.email}</h1>
                     <div class="badge badge-success badge-sm">Ativo</div>
                   </div>
-                  <p class="text-sm opacity-60 mt-1">joao.silva@email.com</p>
+                  <p class="text-sm opacity-60 mt-1">{@current_user.email}</p>
                   <p class="mt-3 opacity-80">
                     Estudante de Ciência da Computação apaixonado por tecnologia e inovação.
                     Buscando oportunidades de estágio para aplicar conhecimentos e crescer profissionalmente.

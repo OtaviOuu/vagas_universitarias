@@ -21,9 +21,10 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
                     <div class="badge badge-outline">São Paulo - SP</div>
                   </div>
                 </div>
-                <button class="btn btn-primary">
-                  Candidatar-se
-                </button>
+                <div class="flex items-center gap-1 text-sm opacity-80" phx-click="like">
+                  10 Likes
+                  <.icon name="hero-heart hover:text-red-500 hover:scale-125 hover:transition-transform cursor-pointer" />
+                </div>
               </div>
 
               <div class="flex gap-2 mt-4">
@@ -187,5 +188,9 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
       </div>
     </Layouts.app>
     """
+  end
+
+  def handle_event("like", _value, socket) do
+    {:noreply, put_flash(socket, :info, "test")}
   end
 end
