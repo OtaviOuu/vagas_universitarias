@@ -22,7 +22,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
                   src="https://play-lh.googleusercontent.com/0j6--RjOpm3uzR4GMCDK23w7X2wo2ePDzVy3wiYufzW_smS1smgldQ1aG3WQlhD2dMk=s48"
                 />
                 <div class="flex-1">
-                  <h1 class="card-title text-2xl">Estágio em Tecnologia</h1>
+                  <h1 class="card-title text-2xl">{@vaga.titulo}</h1>
                   <p class="text-lg opacity-80">BTG Pactual</p>
                   <div class="flex gap-2 mt-2">
                     <div class="badge badge-soft badge-primary">R$ 2.500,00</div>
@@ -43,7 +43,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
 
               <div class="divider"></div>
 
-              <div class="space-y-4">
+              <div class="space-y-4 mx-auto">
                 <img src={@vaga.pdf} />
               </div>
 
