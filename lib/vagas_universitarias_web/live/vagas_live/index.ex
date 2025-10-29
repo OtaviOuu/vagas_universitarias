@@ -8,9 +8,9 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> set_title("Vagas Universitárias")
+      |> set_page_title
+      |> assign_current_user
       |> load_vagas
-      |> assign(:current_user, Map.get(socket.assigns, :current_user))
 
     {:ok, socket}
   end
@@ -90,8 +90,12 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
     """
   end
 
-  defp set_title(socket, title) do
-    assign(socket, :page_title, title)
+  defp set_page_title(socket) do
+    assign(socket, :page_title, "Vagas Universitárias")
+  end
+
+  defp assign_current_user(socket) do
+    assign(socket, :current_user, Map.get(socket.assigns, :current_user))
   end
 
   defp load_vagas(socket) do
