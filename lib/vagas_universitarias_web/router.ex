@@ -24,12 +24,6 @@ defmodule VagasUniversitariasWeb.Router do
   scope "/", VagasUniversitariasWeb do
     pipe_through :browser
 
-    live "/vagas", VagasLive.Index, :index
-    live "/vagas/:id", VagasLive.Show, :show
-    live "/user/profile", UserProfileLive.Show, :show
-    live "/forum/topics", PostsLive.Index, :index
-    live "/forum/topics/:id", PostsLive.Show, :show
-
     ash_authentication_live_session :authenticated_routes do
       # in each liveview, add one of the following at the top of the module:
       #
@@ -41,6 +35,14 @@ defmodule VagasUniversitariasWeb.Router do
       #
       # If an authenticated user must *not* be present:
       # on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_no_user}
+
+      live "/vagas", VagasLive.Index, :index
+      live "/vagas/new", VagasLive.New, :new
+
+      live "/vagas/:id", VagasLive.Show, :show
+      live "/user/profile", UserProfileLive.Show, :show
+      live "/forum/topics", PostsLive.Index, :index
+      live "/forum/topics/:id", PostsLive.Show, :show
     end
   end
 
