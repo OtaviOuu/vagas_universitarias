@@ -8,7 +8,12 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
   def mount(_params, _session, socket) do
     new_vaga_form = Vagas.form_to_create_vaga(actor: socket.assigns.current_user) |> to_form
 
-    {:ok, assign(socket, new_vaga_form: new_vaga_form)}
+    socket =
+      socket
+      |> assign(page_title: "Publicar Nova Vaga")
+      |> assign(new_vaga_form: new_vaga_form)
+
+    {:ok, socket}
   end
 
   def render(assigns) do
@@ -44,6 +49,16 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
                     Emprego: :emprego,
                     Trainee: :trainee
                   ]}
+                />
+              </div>
+
+              <div class="form-control">
+                <.input
+                  type="text"
+                  field={@new_vaga_form[:pdf]}
+                  label="PDF da Vaga"
+                  placeholder="Link para o PDF da Vaga"
+                  class="input input-bordered w-full"
                 />
               </div>
 

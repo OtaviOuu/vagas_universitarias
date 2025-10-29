@@ -6,6 +6,7 @@ defmodule VagasUniversitarias.Vagas do
   resources do
     resource VagasUniversitarias.Vagas.Vaga do
       define :list_vagas, action: :read
+      define :get_vaga, action: :read, get_by: :id
       define :create_vaga, action: :create
     end
 

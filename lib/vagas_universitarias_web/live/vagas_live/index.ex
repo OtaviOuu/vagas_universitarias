@@ -26,8 +26,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
           phx-click={JS.navigate(~p"/vagas/new")}
           class="btn btn-primary"
         >
-          <.icon name="hero-plus" class="w-4 h-4 mr-2" />
-          Nova Vaga
+          <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Vaga
         </.button>
       </div>
       <content>

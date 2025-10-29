@@ -12,7 +12,7 @@ defmodule VagasUniversitarias.Vagas.Vaga do
   end
 
   actions do
-    default_accept [:titulo, :tipo]
+    default_accept [:titulo, :tipo, :pdf]
     defaults [:read, :destroy, :create, :update]
   end
 
@@ -32,6 +32,10 @@ defmodule VagasUniversitarias.Vagas.Vaga do
     attribute :titulo, :string do
       allow_nil? false
       constraints min_length: 3
+    end
+
+    attribute :pdf, :string do
+      allow_nil? true
     end
 
     attribute :tipo, :atom do

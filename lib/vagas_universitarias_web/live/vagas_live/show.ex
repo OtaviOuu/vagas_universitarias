@@ -1,6 +1,14 @@
 defmodule VagasUniversitariasWeb.VagasLive.Show do
   use VagasUniversitariasWeb, :live_view
 
+  alias VagasUniversitarias.Vagas
+
+  def mount(%{"id" => id}, _session, socket) do
+    vaga = Vagas.get_vaga!(id)
+    IO.inspect(vaga)
+    {:ok, assign(socket, vaga: vaga)}
+  end
+
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
@@ -36,47 +44,11 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
               <div class="divider"></div>
 
               <div class="space-y-4">
-                <div>
-                  <h2 class="text-lg font-semibold mb-2">Sobre a vaga</h2>
-                  <p class="opacity-80 leading-relaxed">
-                    Estamos em busca de estudantes talentosos e apaixonados por tecnologia
-                    para se juntar ao nosso time de desenvolvimento. Como estagiário, você
-                    terá a oportunidade de trabalhar em projetos reais, aprender com
-                    profissionais experientes e contribuir para soluções inovadoras no
-                    mercado financeiro.
-                  </p>
-                </div>
+                <img src={@vaga.pdf} />
+              </div>
 
-                <div>
-                  <h2 class="text-lg font-semibold mb-2">Responsabilidades</h2>
-                  <ul class="list-disc list-inside space-y-1 opacity-80">
-                    <li>Desenvolver e manter aplicações web</li>
-                    <li>Participar de code reviews e pair programming</li>
-                    <li>Colaborar com equipes multidisciplinares</li>
-                    <li>Aprender e aplicar boas práticas de desenvolvimento</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h2 class="text-lg font-semibold mb-2">Requisitos</h2>
-                  <ul class="list-disc list-inside space-y-1 opacity-80">
-                    <li>Cursando Ciência da Computação, Engenharia ou áreas relacionadas</li>
-                    <li>Conhecimento em linguagens de programação (Python, Java, JavaScript)</li>
-                    <li>Inglês intermediário</li>
-                    <li>Disponibilidade de 6 horas diárias</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h2 class="text-lg font-semibold mb-2">Benefícios</h2>
-                  <ul class="list-disc list-inside space-y-1 opacity-80">
-                    <li>Vale refeição e alimentação</li>
-                    <li>Vale transporte</li>
-                    <li>Seguro de vida</li>
-                    <li>Gympass</li>
-                    <li>Programa de idiomas</li>
-                  </ul>
-                </div>
+              <div class="space-y-4">
+                descr
               </div>
             </div>
           </div>
