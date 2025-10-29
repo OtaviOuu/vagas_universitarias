@@ -3,8 +3,10 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
 
   alias VagasUniversitarias.Vagas
 
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_admin_required}
+
   def mount(_params, _session, socket) do
-    new_vaga_form = Vagas.form_to_create_vaga() |> to_form
+    new_vaga_form = Vagas.form_to_create_vaga(actor: socket.assigns.current_user) |> to_form
 
     {:ok, assign(socket, new_vaga_form: new_vaga_form)}
   end
@@ -84,7 +86,11 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
   end
 
   def handle_event("save", %{"form" => vaga_params}, socket) do
-    case AshPhoenix.Form.submit(socket.assigns.new_vaga_form, params: vaga_params) do
+    IO.inspect(socket.assigns.current_user)
+
+    case AshPhoenix.Form.submit(socket.assigns.new_vaga_form,
+           params: vaga_params
+         ) do
       {:ok, _vaga} ->
         {:noreply,
          socket

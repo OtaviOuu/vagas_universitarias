@@ -7,12 +7,29 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
 
   def mount(_params, _session, socket) do
     vagas = Vagas.list_vagas!()
-    {:ok, assign(socket, vagas: vagas)}
+
+    socket =
+      socket
+      |> assign(page_title: "Vagas Universitárias")
+      |> assign(vagas: vagas)
+      |> assign(:current_user, Map.get(socket.assigns, :current_user))
+
+    {:ok, socket}
   end
 
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
+      <div class="flex items-center space-x-4 mb-4">
+        <.button
+          :if={Vagas.can_create_vaga?(@current_user)}
+          phx-click={JS.navigate(~p"/vagas/new")}
+          class="btn btn-primary"
+        >
+          <.icon name="hero-plus" class="w-4 h-4 mr-2" />
+          Nova Vaga
+        </.button>
+      </div>
       <content>
         <ul class="list bg-base-100 rounded-box shadow-md">
           <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Vagas mais recentes</li>

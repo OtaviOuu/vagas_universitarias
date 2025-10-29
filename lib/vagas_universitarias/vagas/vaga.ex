@@ -2,7 +2,9 @@ defmodule VagasUniversitarias.Vagas.Vaga do
   use Ash.Resource,
     otp_app: :vagas_universitarias,
     domain: VagasUniversitarias.Vagas,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    authorizers: [Ash.Policy.Authorizer],
+    extensions: [AshAuthentication]
 
   postgres do
     table "vagas"
@@ -12,6 +14,16 @@ defmodule VagasUniversitarias.Vagas.Vaga do
   actions do
     default_accept [:titulo, :tipo]
     defaults [:read, :destroy, :create, :update]
+  end
+
+  policies do
+    policy action_type(:read) do
+      authorize_if always()
+    end
+
+    policy action_type(:create) do
+      authorize_if actor_attribute_equals(:role, :admin)
+    end
   end
 
   attributes do

@@ -6,6 +6,8 @@ defmodule VagasUniversitarias.Accounts.User do
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshAuthentication]
 
+  alias VagasUniversitarias.Accounts.Role
+
   authentication do
     add_ons do
       log_out_everywhere do
@@ -93,6 +95,11 @@ defmodule VagasUniversitarias.Accounts.User do
     attribute :email, :ci_string do
       allow_nil? false
       public? true
+    end
+
+    attribute :role, Role do
+      allow_nil? false
+      default :user
     end
   end
 
