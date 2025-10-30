@@ -36,15 +36,15 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
                 <div class="avatar">
                   <div class="w-24 h-24 rounded-box">
                     <img
-                      src={@empresa.result.logo_url}
                       :if={@empresa.ok?}
+                      src={@empresa.result.logo_url}
                       alt="Logo da Empresa"
                     />
                   </div>
                 </div>
 
                 <div class="flex-1">
-                  <h1 class="text-3xl font-bold mb-2"  :if={@empresa.ok?}>{@empresa.result.nome}</h1>
+                  <h1 :if={@empresa.ok?} class="text-3xl font-bold mb-2">{@empresa.result.nome}</h1>
                   <p class="opacity-80 mb-4">
                     Banco de investimentos líder na América Latina, oferecendo oportunidades
                     desafiadoras e ambiente de crescimento acelerado para jovens talentos.
@@ -92,7 +92,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
                     </div>
                   </div>
                 </div>
-
+                
     <!-- Botão de Seguir -->
                 <div>
                   <button class="btn btn-primary gap-2">
@@ -121,7 +121,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               </div>
             </div>
           </div>
-
+          
     <!-- Filtros e Ordenação -->
           <div class="flex items-center justify-between">
             <div class="tabs tabs-boxed">
@@ -136,7 +136,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               <option>Menor salário</option>
             </select>
           </div>
-
+          
     <!-- Lista de Vagas -->
           <.async_result :let={empresa} assign={@empresa}>
             <:loading>
@@ -146,7 +146,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
             <.job_listing vagas={empresa.vagas} />
           </.async_result>
         </div>
-
+        
     <!-- Coluna Lateral -->
         <div class="w-80 space-y-4">
           <!-- Card Sobre a Empresa -->
@@ -175,7 +175,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               </div>
             </div>
           </div>
-
+          
     <!-- Card de Estatísticas -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
@@ -183,8 +183,9 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               <div class="stats stats-vertical shadow-sm">
                 <div class="stat p-3">
                   <div class="stat-title text-xs">Vagas Abertas</div>
-                  <div class="stat-value text-2xl text-primary">8</div>
-                  <div class="stat-desc">+2 esta semana</div>
+                  <div :if={@empresa.ok?} class="stat-value text-2xl text-primary">
+                    {@empresa.result.count_vagas}
+                  </div>
                 </div>
                 <div class="stat p-3">
                   <div class="stat-title text-xs">Seguidores</div>
@@ -198,8 +199,6 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </Layouts.app>
@@ -232,14 +231,18 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
         </div>
       </li>
     </ul>
-
-
     """
   end
 
   defp load_empresa(socket, empresa_id) do
     assign_async(socket, :empresa, fn ->
-      {:ok, %{empresa: Vagas.get_empresa!(empresa_id, load: [vagas: [:salario_reais]])}}
+      {:ok,
+       %{
+         empresa:
+           Vagas.get_empresa!(empresa_id,
+             load: [:count_vagas, vagas: [:salario_reais]]
+           )
+       }}
     end)
   end
 end

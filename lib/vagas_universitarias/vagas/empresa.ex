@@ -25,4 +25,8 @@ defmodule VagasUniversitarias.Vagas.Empresa do
   relationships do
     has_many :vagas, VagasUniversitarias.Vagas.Vaga
   end
+
+  aggregates do
+    count :count_vagas, :vagas
+  end
 end
