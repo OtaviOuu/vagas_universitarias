@@ -2,6 +2,6 @@ defmodule VagasUniversitariasWeb.PageController do
   use VagasUniversitariasWeb, :controller
 
   def home(conn, _params) do
-    render(conn, :home)
+    redirect(conn, to: ~p"/vagas")
   end
 end
