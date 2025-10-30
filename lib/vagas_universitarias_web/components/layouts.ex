@@ -57,6 +57,9 @@ defmodule VagasUniversitariasWeb.Layouts do
         <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm">
           Vagas
         </.link>
+        <.link navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm">
+          Admin
+        </.link>
       </div>
 
       <div class="navbar-center">
@@ -89,6 +92,152 @@ defmodule VagasUniversitariasWeb.Layouts do
       </div>
     </main>
 
+    <.flash_group flash={@flash} />
+    """
+  end
+
+  attr :flash, :map, required: true, doc: "the map of flash messages"
+
+  attr :current_scope, :map,
+    default: nil,
+    doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
+
+  attr :current_user, :map, default: nil, doc: "the current admin user"
+  slot :inner_block, required: true
+
+  def admin_layout(assigns) do
+    ~H"""
+    <div class="drawer lg:drawer-open">
+      <input id="admin-drawer" type="checkbox" class="drawer-toggle" />
+      <div class="drawer-content flex flex-col">
+        <header class="navbar bg-base-100 shadow-sm border-b border-base-300">
+          <div class="flex-none lg:hidden">
+            <label for="admin-drawer" class="btn btn-ghost btn-circle">
+              <.icon name="hero-bars-3" class="size-5" />
+            </label>
+          </div>
+          <div class="flex-1">
+            <span class="text-xl font-semibold ml-2">Admin Dashboard</span>
+          </div>
+          <div class="flex-none gap-2">
+            <button class="btn btn-ghost btn-circle">
+              <.icon name="hero-magnifying-glass" class="size-5" />
+            </button>
+            <button class="btn btn-ghost btn-circle">
+              <div class="indicator">
+                <.icon name="hero-bell" class="size-5" />
+                <span class="badge badge-xs badge-error indicator-item"></span>
+              </div>
+            </button>
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                  <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+                </div>
+              </div>
+              <ul
+                tabindex="-1"
+                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow-lg border border-base-300"
+              >
+                <li><.link navigate={~p"/vagas"}>Ver Site</.link></li>
+                <li><.link navigate={~p"/admin/profile"}>Perfil</.link></li>
+                <li><.link navigate={~p"/admin/settings"}>Configurações</.link></li>
+                <li><hr class="my-1" /></li>
+                <li>
+                  <.link href={~p"/logout"} method="delete">Sair</.link>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto bg-base-200">
+          <div class="p-6 max-w-7xl mx-auto">
+            {render_slot(@inner_block)}
+          </div>
+        </main>
+      </div>
+
+      <div class="drawer-side z-10">
+        <label for="admin-drawer" class="drawer-overlay"></label>
+        <aside class="bg-base-100 w-64 min-h-screen shadow-xl">
+          <div class="p-4 border-b border-base-300">
+            <.link navigate={~p"/"} class="flex items-center gap-2">
+              <span class="text-2xl font-bold">Projetin</span>
+              <span class="badge badge-sm badge-primary">Admin</span>
+            </.link>
+          </div>
+
+          <ul class="menu p-4 gap-1">
+            <li class="menu-title">
+              <span>Principal</span>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/home"} class="gap-3">
+                <.icon name="hero-home" class="size-5" /> Dashboard
+              </.link>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/analytics"} class="gap-3">
+                <.icon name="hero-chart-bar" class="size-5" /> Analytics
+              </.link>
+            </li>
+
+            <li class="menu-title mt-4">
+              <span>Gerenciamento</span>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/empresas"} class="gap-3">
+                <.icon name="hero-building-office" class="size-5" /> Empresas
+              </.link>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/vagas"} class="gap-3">
+                <.icon name="hero-briefcase" class="size-5" /> Vagas
+              </.link>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/users"} class="gap-3">
+                <.icon name="hero-users" class="size-5" /> Usuários
+              </.link>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/forum"} class="gap-3">
+                <.icon name="hero-chat-bubble-left-right" class="size-5" /> Fórum
+              </.link>
+            </li>
+
+            <li class="menu-title mt-4">
+              <span>Conteúdo</span>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/posts"} class="gap-3">
+                <.icon name="hero-document-text" class="size-5" /> Posts
+              </.link>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/media"} class="gap-3">
+                <.icon name="hero-photo" class="size-5" /> Mídia
+              </.link>
+            </li>
+
+            <li class="menu-title mt-4">
+              <span>Sistema</span>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/settings"} class="gap-3">
+                <.icon name="hero-cog-6-tooth" class="size-5" /> Configurações
+              </.link>
+            </li>
+            <li>
+              <.link navigate={~p"/admin/logs"} class="gap-3">
+                <.icon name="hero-clipboard-document-list" class="size-5" /> Logs
+              </.link>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </div>
     <.flash_group flash={@flash} />
     """
   end

@@ -36,6 +36,7 @@ defmodule VagasUniversitariasWeb.Router do
       # If an authenticated user must *not* be present:
       # on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_no_user}
 
+      live "/admin/home", AdminLive.Home, :index
       live "/vagas", VagasLive.Index, :index
       live "/vagas/new", VagasLive.New, :new
       live "/empresas", EmpresasLive.Index, :index
