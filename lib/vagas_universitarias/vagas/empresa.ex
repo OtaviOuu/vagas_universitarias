@@ -12,6 +12,11 @@ defmodule VagasUniversitarias.Vagas.Empresa do
   actions do
     default_accept [:nome, :logo_url]
     defaults [:read, :create]
+
+    update :like do
+      accept [:likes]
+      change atomic_update(:likes, expr(likes + 1))
+    end
   end
 
   attributes do
@@ -19,6 +24,8 @@ defmodule VagasUniversitarias.Vagas.Empresa do
 
     attribute :nome, :string, allow_nil?: false
     attribute :logo_url, :string, allow_nil?: false
+    attribute :likes, :integer, default: 0, allow_nil?: false
+
     timestamps()
   end
 

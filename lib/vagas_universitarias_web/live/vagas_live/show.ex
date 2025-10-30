@@ -14,7 +14,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
     <Layouts.app {assigns}>
       <div class="flex gap-4">
         <div class="flex-1 space-y-4">
-        <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/vagas")}>
+          <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/vagas")}>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -26,7 +26,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
             Voltar para vagas
           </button>
           <div class="card bg-base-100 shadow-md">
-
             <div class="card-body">
               <div class="flex items-start gap-4">
                 <img
@@ -158,8 +157,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
           </div>
 
           <.button class="btn btn-primary btn-block">
-            <.icon name="hero-bookmark" class="w-5 h-5 mr-2" />
-            Salvar vaga
+            <.icon name="hero-bookmark" class="w-5 h-5 mr-2" /> Salvar vaga
           </.button>
         </div>
       </div>

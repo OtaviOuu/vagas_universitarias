@@ -6,7 +6,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
   def mount(%{"id" => empresa_id}, _session, socket) do
     socket =
       socket
-      |> load_empresa(empresa_id)
+      |> assign_empresa(empresa_id)
 
     {:ok, socket}
   end
@@ -45,10 +45,6 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
 
                 <div class="flex-1">
                   <h1 :if={@empresa.ok?} class="text-3xl font-bold mb-2">{@empresa.result.nome}</h1>
-                  <p class="opacity-80 mb-4">
-                    Banco de investimentos líder na América Latina, oferecendo oportunidades
-                    desafiadoras e ambiente de crescimento acelerado para jovens talentos.
-                  </p>
 
                   <div class="flex flex-wrap gap-3">
                     <div class="badge badge-lg badge-outline gap-2">
@@ -92,31 +88,13 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
                     </div>
                   </div>
                 </div>
-                
-    <!-- Botão de Seguir -->
-                <div>
-                  <button class="btn btn-primary gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                      />
-                    </svg>
-                    Seguir Empresa
-                  </button>
-                  <button class="btn btn-ghost btn-sm mt-2 w-full gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                      />
-                    </svg>
-                    Visitar Site
-                  </button>
+                <div
+                  :if={@empresa.ok?}
+                  class="flex items-center gap-1 text-sm opacity-80"
+                  phx-click="like"
+                >
+                  {@empresa.result.likes} Likes
+                  <.icon name="hero-heart hover:text-red-500 hover:scale-125 hover:transition-transform cursor-pointer" />
                 </div>
               </div>
             </div>
@@ -158,21 +136,6 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
                 com uma cultura de meritocracia e alto desempenho. Valorizamos
                 inovação, trabalho em equipe e excelência.
               </p>
-              <div class="divider"></div>
-              <div class="space-y-3">
-                <div>
-                  <div class="text-xs opacity-60 uppercase tracking-wide mb-1">Fundação</div>
-                  <div class="font-medium">1983</div>
-                </div>
-                <div>
-                  <div class="text-xs opacity-60 uppercase tracking-wide mb-1">Sede</div>
-                  <div class="font-medium">São Paulo, Brasil</div>
-                </div>
-                <div>
-                  <div class="text-xs opacity-60 uppercase tracking-wide mb-1">Funcionários</div>
-                  <div class="font-medium">5.000+ colaboradores</div>
-                </div>
-              </div>
             </div>
           </div>
           
@@ -180,7 +143,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Estatísticas</h2>
-              <div class="stats stats-vertical shadow-sm">
+              <div class="stats stats-vertical">
                 <div class="stat p-3">
                   <div class="stat-title text-xs">Vagas Abertas</div>
                   <div :if={@empresa.ok?} class="stat-value text-2xl text-primary">
@@ -199,6 +162,9 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               </div>
             </div>
           </div>
+          <.button class="btn btn-primary btn-block">
+            <.icon name="hero-plus" class="w-5 h-5 mr-2" /> Seguir Empresa
+          </.button>
         </div>
       </div>
     </Layouts.app>
@@ -234,7 +200,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
     """
   end
 
-  defp load_empresa(socket, empresa_id) do
+  defp assign_empresa(socket, empresa_id) do
     assign_async(socket, :empresa, fn ->
       {:ok,
        %{
@@ -244,5 +210,22 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
            )
        }}
     end)
+  end
+
+  def handle_event("like", _params, socket) do
+    empresa = socket.assigns.empresa.result
+
+    case Vagas.like_empresa(empresa, actor: socket.assigns.current_user) do
+      {:ok, _updated_empresa} ->
+        socket =
+          socket
+          |> assign_empresa(empresa.id)
+          |> put_flash(:info, "Você curtiu a empresa com sucesso!")
+
+        {:noreply, socket}
+
+      {:error, _reason} ->
+        {:noreply, socket}
+    end
   end
 end

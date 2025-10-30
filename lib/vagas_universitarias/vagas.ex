@@ -14,6 +14,7 @@ defmodule VagasUniversitarias.Vagas do
       define :list_empresas, action: :read
       define :get_empresa, action: :read, get_by: :id
       define :create_empresa, action: :create
+      define :like_empresa, action: :like
     end
   end
 end
