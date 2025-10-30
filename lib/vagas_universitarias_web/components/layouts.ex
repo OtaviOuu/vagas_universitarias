@@ -4,6 +4,8 @@ defmodule VagasUniversitariasWeb.Layouts do
   used by your application.
   """
   use VagasUniversitariasWeb, :html
+  alias VagasUniversitarias.Vagas
+
 
   # Embed all files in layouts/* within this module.
   # The default root.html.heex file contains the HTML
@@ -234,6 +236,25 @@ defmodule VagasUniversitariasWeb.Layouts do
                 <.icon name="hero-clipboard-document-list" class="size-5" /> Logs
               </.link>
             </li>
+            <li>
+             <.button
+              :if={Vagas.can_create_vaga?(@current_user)}
+              phx-click={JS.navigate(~p"/vagas/new")}
+              class="btn btn-primary"
+            >
+              <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Vaga
+            </.button>
+            </li>
+            <li>
+                <.button
+              :if={Vagas.can_create_vaga?(@current_user)}
+              phx-click={JS.navigate(~p"/empresas/new")}
+              class="btn btn-primary"
+            >
+              <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Empresa
+            </.button>
+            </li>
+
           </ul>
         </aside>
       </div>

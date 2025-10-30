@@ -1,9 +1,9 @@
 defmodule VagasUniversitariasWeb.VagasLive.Index do
   use VagasUniversitariasWeb, :live_view
 
-  alias VagasUniversitarias.Vagas
-
   on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_optional}
+
+  alias VagasUniversitarias.Vagas
 
   def mount(_params, _session, socket) do
     socket =
@@ -18,7 +18,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
-      <.actions current_user={@current_user} />
       <.async_result :let={vagas} assign={@vagas}>
         <:loading>
           <.loading_spinner />
@@ -27,27 +26,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
         <.job_list vagas={vagas} />
       </.async_result>
     </Layouts.app>
-    """
-  end
-
-  def actions(assigns) do
-    ~H"""
-    <div class="flex items-center space-x-4 mb-4">
-      <.button
-        :if={Vagas.can_create_vaga?(@current_user)}
-        phx-click={JS.navigate(~p"/vagas/new")}
-        class="btn btn-primary"
-      >
-        <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Vaga
-      </.button>
-      <.button
-        :if={Vagas.can_create_vaga?(@current_user)}
-        phx-click={JS.navigate(~p"/empresas/new")}
-        class="btn btn-primary"
-      >
-        <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Empresa
-      </.button>
-    </div>
     """
   end
 
