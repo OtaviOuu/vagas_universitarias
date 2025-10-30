@@ -16,6 +16,13 @@ defmodule VagasUniversitarias.Vagas.Vaga do
   actions do
     default_accept [:titulo, :tipo, :pdf, :empresa_id, :salario_centavos]
     defaults [:read, :destroy, :create, :update]
+
+    read :list_by_empresa do
+      argument :empresa_id, :uuid, allow_nil?: false
+
+      filter expr(empresa_id == ^arg(:empresa_id))
+    end
+
   end
 
   policies do

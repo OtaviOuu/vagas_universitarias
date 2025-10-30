@@ -469,4 +469,12 @@ defmodule VagasUniversitariasWeb.CoreComponents do
   def translate_errors(errors, field) when is_list(errors) do
     for {^field, {msg, opts}} <- errors, do: translate_error({msg, opts})
   end
+
+  def loading_spinner(assigns) do
+    ~H"""
+    <div class="flex justify-center py-8">
+      <span class="loading loading-spinner text-primary"></span>
+    </div>
+    """
+  end
 end

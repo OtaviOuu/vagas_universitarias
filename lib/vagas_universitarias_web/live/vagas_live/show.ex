@@ -14,7 +14,19 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
     <Layouts.app {assigns}>
       <div class="flex gap-4">
         <div class="flex-1 space-y-4">
+        <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/vagas")}>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            Voltar para vagas
+          </button>
           <div class="card bg-base-100 shadow-md">
+
             <div class="card-body">
               <div class="flex items-start gap-4">
                 <img
@@ -23,7 +35,12 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
                 />
                 <div class="flex-1">
                   <h1 class="card-title text-2xl">{@vaga.titulo}</h1>
-                  <p class="text-lg opacity-80">{@vaga.empresa.nome}</p>
+                  <.link
+                    navigate={~p"/empresas/#{@vaga.empresa.id}"}
+                    class="text-lg opacity-80 hover:underline"
+                  >
+                    {@vaga.empresa.nome}
+                  </.link>
                   <div class="flex gap-2 mt-2">
                     <div class="badge badge-soft badge-primary">R$ {@vaga.salario_reais}</div>
                     <div class="badge badge-outline">São Paulo - SP</div>
@@ -140,22 +157,10 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
             </div>
           </div>
 
-          <button class="btn btn-primary btn-block">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-              />
-            </svg>
+          <.button class="btn btn-primary btn-block">
+            <.icon name="hero-bookmark" class="w-5 h-5 mr-2" />
             Salvar vaga
-          </button>
-
-          <button class="btn btn-ghost btn-block" phx-click={JS.navigate(~p"/vagas")}>
-            <.icon name="hero-arrow-left-solid" class="w-5 h-5" phx-click={JS.navigate(~p"/vagas")} />
-            Voltar para vagas
-          </button>
+          </.button>
         </div>
       </div>
     </Layouts.app>

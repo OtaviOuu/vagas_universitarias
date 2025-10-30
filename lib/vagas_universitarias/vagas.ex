@@ -12,6 +12,7 @@ defmodule VagasUniversitarias.Vagas do
 
     resource VagasUniversitarias.Vagas.Empresa do
       define :list_empresas, action: :read
+      define :get_empresa, action: :read, get_by: :id
       define :create_empresa, action: :create
     end
   end

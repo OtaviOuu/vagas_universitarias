@@ -82,14 +82,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
     """
   end
 
-  def loading_spinner(assigns) do
-    ~H"""
-    <div class="flex justify-center py-8">
-      <span class="loading loading-spinner text-primary"></span>
-    </div>
-    """
-  end
-
   defp set_page_title(socket) do
     assign(socket, :page_title, "Vagas Universitárias")
   end
