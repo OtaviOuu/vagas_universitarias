@@ -35,44 +35,56 @@ defmodule VagasUniversitariasWeb.Layouts do
 
   def app(assigns) do
     ~H"""
-    <header class="navbar bg-base-100 shadow-sm">
-      <div class="navbar-start">
-        <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-            <.icon name="hero-bars-3" class="size-5" />
-          </div>
-          <ul
-            tabindex="-1"
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li><.link navigate={~p"/forum/topics"}>Forum</.link></li>
-            <li><.link navigate={~p"/portfolio"}>Portfolio</.link></li>
-            <li><.link navigate={~p"/about"}>About</.link></li>
-          </ul>
-        </div>
-      </div>
-      <div class="navbar-center">
-        <.link navigate={~p"/vagas"} class="btn btn-ghost text-xl">daisyUI</.link>
-      </div>
-      <div class="navbar-end">
-        <button class="btn btn-ghost btn-circle">
-          <.icon name="hero-magnifying-glass" class="size-5" />
-        </button>
-        <button class="btn btn-ghost btn-circle">
-          <div class="indicator">
-            <.icon name="hero-bell" class="size-5" />
-            <span class="badge badge-xs badge-primary indicator-item"></span>
-          </div>
-        </button>
-        <button class="btn btn-ghost btn-circle" phx-click={JS.navigate(~p"/user/profile")}>
-          <div class="avatar">
-            <div class="rounded-full">
-              <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+      <header class="navbar bg-base-100 shadow-sm">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <.icon name="hero-bars-3" class="size-5" />
             </div>
+            <ul
+              tabindex="-1"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li><.link navigate={~p"/forum/topics"}>Forum</.link></li>
+              <li><.link navigate={~p"/portfolio"}>Portfolio</.link></li>
+              <li><.link navigate={~p"/about"}>About</.link></li>
+            </ul>
           </div>
-        </button>
-      </div>
-    </header>
+
+          <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm ml-2">
+            Empresas
+          </.link>
+          <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm">
+            Vagas
+          </.link>
+
+
+        </div>
+
+        <div class="navbar-center">
+          <.link navigate={~p"/"} class="btn btn-ghost text-xl">Projetin</.link>
+        </div>
+
+        <div class="navbar-end">
+          <button class="btn btn-ghost btn-circle">
+            <.icon name="hero-magnifying-glass" class="size-5" />
+          </button>
+          <button class="btn btn-ghost btn-circle">
+            <div class="indicator">
+              <.icon name="hero-bell" class="size-5" />
+              <span class="badge badge-xs badge-primary indicator-item"></span>
+            </div>
+          </button>
+          <button class="btn btn-ghost btn-circle" phx-click={JS.navigate(~p"/user/profile")}>
+            <div class="avatar">
+              <div class="rounded-full">
+                <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+              </div>
+            </div>
+          </button>
+        </div>
+      </header>
+
 
     <main class="px-4 sm:px-6 lg:px-8">
       <div class="min-h-screen py-8">

@@ -30,24 +30,21 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
             Voltar para vagas
           </button>
 
-    <!-- Card Header da Empresa -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <div class="flex items-start gap-6">
-                <!-- Logo -->
                 <div class="avatar">
                   <div class="w-24 h-24 rounded-box">
                     <img
                       src={@empresa.result.logo_url}
                       :if={@empresa.ok?}
-                      alt="BTG Logo"
+                      alt="Logo da Empresa"
                     />
                   </div>
                 </div>
 
-    <!-- Informações -->
                 <div class="flex-1">
-                  <h1 class="text-3xl font-bold mb-2">BTG Pactual</h1>
+                  <h1 class="text-3xl font-bold mb-2"  :if={@empresa.ok?}>{@empresa.result.nome}</h1>
                   <p class="opacity-80 mb-4">
                     Banco de investimentos líder na América Latina, oferecendo oportunidades
                     desafiadoras e ambiente de crescimento acelerado para jovens talentos.
