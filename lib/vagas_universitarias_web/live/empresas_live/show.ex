@@ -91,7 +91,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
                   </div>
                 </div>
                 <div
-                  :if={@empresa.ok? && assigns.current_user}
+                  :if={@empresa.ok?}
                   class="flex items-center gap-1 text-sm opacity-80"
                   phx-click="like"
                 >
@@ -212,6 +212,13 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
            )
        }}
     end)
+  end
+
+  def handle_event("like", _params, socket) when is_nil(socket.assigns.current_user) do
+    {:noreply,
+     socket
+     |> put_flash(:info, "Você precisa estar logado para curtir uma empresa!")
+     |> push_navigate(to: ~p"/sign-in")}
   end
 
   def handle_event("like", _params, socket) do
