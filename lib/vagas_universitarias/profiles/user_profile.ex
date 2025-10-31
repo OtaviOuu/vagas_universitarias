@@ -12,7 +12,7 @@ defmodule VagasUniversitarias.Profiles.UserProfile do
   end
 
   actions do
-    default_accept [:full_name, :nick_name, :user_id]
+    default_accept [:full_name, :nick_name, :user_id, :bio, :avatar_url]
     defaults [:create, :read, :update, :destroy]
   end
 
@@ -39,6 +39,8 @@ defmodule VagasUniversitarias.Profiles.UserProfile do
 
     attribute :full_name, :string, public?: true
     attribute :nick_name, :string, public?: true, allow_nil?: false
+    attribute :bio, :string, public?: true, allow_nil?: false
+    attribute :avatar_url, :string, public?: true, allow_nil?: false
 
     timestamps()
   end

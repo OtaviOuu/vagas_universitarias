@@ -50,6 +50,26 @@ defmodule VagasUniversitariasWeb.UserProfileLive.New do
                 />
               </div>
 
+              <div class="form-control">
+                <.input
+                  type="text"
+                  field={@new_user_profile[:bio]}
+                  label="Bio"
+                  placeholder="Ex: Estudante de Ciência da Computação"
+                  class="input input-bordered w-full"
+                />
+              </div>
+
+              <div class="form-control">
+                <.input
+                  type="text"
+                  field={@new_user_profile[:avatar_url]}
+                  label="URL do Avatar"
+                  placeholder="Ex: https://example.com/avatar.jpg"
+                  class="input input-bordered w-full"
+                />
+              </div>
+
               <div class="divider"></div>
 
               <div class="flex gap-3 pt-4">

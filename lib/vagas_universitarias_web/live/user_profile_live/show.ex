@@ -18,18 +18,19 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
               <div class="flex items-start gap-4">
                 <div class="avatar">
                   <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src="https://ui-avatars.com/api/?name=Usuario&size=128&background=random" />
+                    <img src={@current_user.user_profile.avatar_url} />
                   </div>
                 </div>
                 <div class="flex-1">
                   <div class="flex items-center gap-2">
-                    <h1 class="text-2xl font-bold">{@current_user.email}</h1>
+                    <h1 class="text-2xl font-bold">{@current_user.user_profile.nick_name}</h1>
                     <div class="badge badge-success badge-sm">Ativo</div>
                   </div>
-                  <p class="text-sm opacity-60 mt-1">{@current_user.email}</p>
+                  <p class="text-sm opacity-60 mt-1">
+                    {@current_user.email} - {@current_user.user_profile.full_name}
+                  </p>
                   <p class="mt-3 opacity-80">
-                    Estudante de Ciência da Computação apaixonado por tecnologia e inovação.
-                    Buscando oportunidades de estágio para aplicar conhecimentos e crescer profissionalmente.
+                    {@current_user.user_profile.bio}
                   </p>
                 </div>
                 <button class="btn btn-outline btn-sm">Editar Perfil</button>
@@ -42,9 +43,24 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
               <h2 class="card-title">Informações Acadêmicas</h2>
               <div class="space-y-4 mt-2">
                 <div class="flex items-start gap-3">
-                  <svg class="w-6 h-6 opacity-60 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                  <svg
+                    class="w-6 h-6 opacity-60 mt-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 14l9-5-9-5-9 5 9 5z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                    />
                   </svg>
                   <div class="flex-1">
                     <div class="font-semibold">Universidade de São Paulo (USP)</div>
@@ -71,7 +87,12 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
               </div>
               <button class="btn btn-ghost btn-sm mt-2 self-start">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
                 Adicionar habilidade
               </button>
@@ -99,7 +120,12 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
               </div>
               <button class="btn btn-ghost btn-sm mt-2 self-start">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4"
+                  />
                 </svg>
                 Adicionar experiência
               </button>
@@ -137,8 +163,6 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
             </button>
           </div>
 
-
-
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <div class="flex items-center justify-between">
@@ -150,9 +174,9 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
 
               <ul class="space-y-2 mt-2">
                 <li
+                  :for={_vaga <- 1..3}
                   class="flex items-center gap-3 p-3 rounded-lg hover:bg-base-200 cursor-pointer transition-colors"
                   phx-click={JS.navigate(~p"/vagas/#{1}")}
-                  :for={_vaga <- 1..3}
                 >
                   <img
                     class="size-10 rounded-box"
