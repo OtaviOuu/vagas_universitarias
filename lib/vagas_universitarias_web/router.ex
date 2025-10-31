@@ -44,6 +44,8 @@ defmodule VagasUniversitariasWeb.Router do
       live "/empresas/:id", EmpresasLive.Show, :show
       live "/vagas/:id", VagasLive.Show, :show
       live "/user/profile", UserProfileLive.Show, :show
+      live "/user/profile/new", UserProfileLive.New, :new
+
       live "/forum/topics", PostsLive.Index, :index
       live "/forum/topics/:id", PostsLive.Show, :show
     end

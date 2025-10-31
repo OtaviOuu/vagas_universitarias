@@ -6,7 +6,6 @@ defmodule VagasUniversitariasWeb.Layouts do
   use VagasUniversitariasWeb, :html
   alias VagasUniversitarias.Vagas
 
-
   # Embed all files in layouts/* within this module.
   # The default root.html.heex file contains the HTML
   # skeleton of your application, namely HTML headers
@@ -50,6 +49,7 @@ defmodule VagasUniversitariasWeb.Layouts do
             <li><.link navigate={~p"/forum/topics"}>Forum</.link></li>
             <li><.link navigate={~p"/portfolio"}>Portfolio</.link></li>
             <li><.link navigate={~p"/about"}>About</.link></li>
+            <li :if={@current_user}>{@current_user.email}</li>
           </ul>
         </div>
 
@@ -237,24 +237,23 @@ defmodule VagasUniversitariasWeb.Layouts do
               </.link>
             </li>
             <li>
-             <.button
-              :if={Vagas.can_create_vaga?(@current_user)}
-              phx-click={JS.navigate(~p"/vagas/new")}
-              class="btn btn-primary"
-            >
-              <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Vaga
-            </.button>
+              <.button
+                :if={Vagas.can_create_vaga?(@current_user)}
+                phx-click={JS.navigate(~p"/vagas/new")}
+                class="btn btn-primary"
+              >
+                <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Vaga
+              </.button>
             </li>
             <li>
-                <.button
-              :if={Vagas.can_create_vaga?(@current_user)}
-              phx-click={JS.navigate(~p"/empresas/new")}
-              class="btn btn-primary"
-            >
-              <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Empresa
-            </.button>
+              <.button
+                :if={Vagas.can_create_vaga?(@current_user)}
+                phx-click={JS.navigate(~p"/empresas/new")}
+                class="btn btn-primary"
+              >
+                <.icon name="hero-plus" class="w-4 h-4 mr-2" /> Nova Empresa
+              </.button>
             </li>
-
           </ul>
         </aside>
       </div>

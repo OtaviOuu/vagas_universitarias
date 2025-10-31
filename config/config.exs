@@ -50,7 +50,11 @@ config :spark,
 config :vagas_universitarias,
   ecto_repos: [VagasUniversitarias.Repo],
   generators: [timestamp_type: :utc_datetime],
-  ash_domains: [VagasUniversitarias.Vagas, VagasUniversitarias.Accounts]
+  ash_domains: [
+    VagasUniversitarias.Profiles,
+    VagasUniversitarias.Vagas,
+    VagasUniversitarias.Accounts
+  ]
 
 # Configures the endpoint
 config :vagas_universitarias, VagasUniversitariasWeb.Endpoint,

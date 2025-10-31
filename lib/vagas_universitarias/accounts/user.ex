@@ -47,11 +47,13 @@ defmodule VagasUniversitarias.Accounts.User do
       argument :subject, :string, allow_nil?: false
       get? true
       prepare AshAuthentication.Preparations.FilterBySubject
+      prepare build(load: [:user_profile])
     end
 
     read :get_by_email do
       description "Looks up a user by their email"
       get_by :email
+      prepare build(load: [:user_profile])
     end
 
     create :sign_in_with_magic_link do
@@ -101,6 +103,12 @@ defmodule VagasUniversitarias.Accounts.User do
       allow_nil? false
       default :user
     end
+  end
+
+  relationships do
+    has_one :user_profile, VagasUniversitarias.Profiles.UserProfile,
+      allow_nil?: true,
+      public?: true
   end
 
   identities do
