@@ -1,6 +1,8 @@
 defmodule VagasUniversitariasWeb.EmpresasLive.Show do
   use VagasUniversitariasWeb, :live_view
 
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_optional}
+
   alias VagasUniversitarias.Vagas
 
   def mount(%{"id" => empresa_id}, _session, socket) do
@@ -89,7 +91,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
                   </div>
                 </div>
                 <div
-                  :if={@empresa.ok?}
+                  :if={@empresa.ok? && assigns.current_user}
                   class="flex items-center gap-1 text-sm opacity-80"
                   phx-click="like"
                 >
