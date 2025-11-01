@@ -1,6 +1,8 @@
 defmodule VagasUniversitariasWeb.VagasLive.Show do
   use VagasUniversitariasWeb, :live_view
 
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_optional}
+
   alias VagasUniversitarias.Vagas
 
   def mount(%{"id" => id}, _session, socket) do
