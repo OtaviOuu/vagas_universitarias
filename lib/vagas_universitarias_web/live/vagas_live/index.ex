@@ -50,7 +50,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
             {vaga.empresa.nome}: {vaga.titulo} - <span class="text-secondary">{vaga.tipo}</span>
           </div>
           <div class="flex gap-2">
-            <div :for={_tags <- 1..3} class="badge badge-soft badge-secundary">tag</div>
+            <div :for={tag <- vaga.tags} class="badge badge-soft badge-secundary">{tag.name}</div>
           </div>
         </div>
         <div class="badge badge-soft badge-primary">R$ {vaga.salario_reais}</div>
@@ -70,7 +70,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
 
   defp load_vagas(socket) do
     assign_async(socket, :vagas, fn ->
-      {:ok, %{vagas: Vagas.list_vagas!(load: [:empresa, :salario_reais])}}
+      {:ok, %{vagas: Vagas.list_vagas!(load: [:empresa, :tags, :salario_reais])}}
     end)
   end
 end
