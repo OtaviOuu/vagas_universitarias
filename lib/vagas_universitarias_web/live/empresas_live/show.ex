@@ -101,22 +101,9 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               </div>
             </div>
           </div>
-          
-    <!-- Filtros e Ordenação -->
-          <div class="flex items-center justify-between">
-            <div class="tabs tabs-boxed">
-              <a class="tab tab-active">Todas (8)</a>
-              <a class="tab">Estágio (5)</a>
-              <a class="tab">Trainee (2)</a>
-              <a class="tab">Júnior (1)</a>
-            </div>
-            <select class="select select-bordered select-sm">
-              <option>Mais recentes</option>
-              <option>Maior salário</option>
-              <option>Menor salário</option>
-            </select>
-          </div>
-          
+
+
+
     <!-- Lista de Vagas -->
           <.async_result :let={empresa} assign={@empresa}>
             <:loading>
@@ -126,21 +113,19 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
             <.job_listing vagas={empresa.vagas} />
           </.async_result>
         </div>
-        
+
     <!-- Coluna Lateral -->
         <div class="w-80 space-y-4">
           <!-- Card Sobre a Empresa -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Sobre a Empresa</h2>
-              <p class="text-sm opacity-80 leading-relaxed">
-                O BTG Pactual é o maior banco de investimentos da América Latina,
-                com uma cultura de meritocracia e alto desempenho. Valorizamos
-                inovação, trabalho em equipe e excelência.
+              <p class="text-sm opacity-80 leading-relaxed" :if={@empresa.ok?}>
+                {@empresa.result.descricao}
               </p>
             </div>
           </div>
-          
+
     <!-- Card de Estatísticas -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
@@ -176,10 +161,6 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
   defp job_listing(assigns) do
     ~H"""
     <ul class="list bg-base-100 rounded-box shadow-md">
-      <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
-        8 vagas disponíveis
-      </li>
-
       <li
         :for={vaga <- @vagas}
         class="list-row hover:bg-base-200 flex items-center justify-between"
