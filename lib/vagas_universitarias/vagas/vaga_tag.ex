@@ -11,7 +11,7 @@ defmodule VagasUniversitarias.Vagas.VagaTag do
 
   actions do
     default_accept [:vaga_id, :tag_id]
-    defaults [:read, :create, :update, :destroy]
+    defaults [:read, :create, :update]
   end
 
   relationships do

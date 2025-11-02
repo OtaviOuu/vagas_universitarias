@@ -17,8 +17,7 @@ defmodule VagasUniversitarias.Vagas.Tag do
   attributes do
     uuid_primary_key :id
 
-    attribute :name, :string do
-      constraints max_length: 100
+    attribute :name, :atom do
       allow_nil? false
     end
 
