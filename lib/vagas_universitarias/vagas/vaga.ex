@@ -7,7 +7,7 @@ defmodule VagasUniversitarias.Vagas.Vaga do
     extensions: [AshAuthentication]
 
   alias VagasUniversitarias.Vagas.Empresa
-  alias VagasUniversitarias.Vagas.Calculations.CentavosToReais
+  alias VagasUniversitarias.Vagas.Calculations.{CentavosToReais, InsertedAtFormated}
 
   postgres do
     table "vagas"
@@ -42,6 +42,10 @@ defmodule VagasUniversitarias.Vagas.Vaga do
     end
   end
 
+  preparations do
+    prepare build(sort: [inserted_at: :desc])
+  end
+
   attributes do
     uuid_primary_key :id
 
@@ -74,5 +78,6 @@ defmodule VagasUniversitarias.Vagas.Vaga do
 
   calculations do
     calculate :salario_reais, :string, CentavosToReais
+    calculate :inserted_at_formatted, :string, InsertedAtFormated
   end
 end

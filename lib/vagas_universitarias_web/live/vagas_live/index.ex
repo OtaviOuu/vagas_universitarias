@@ -49,14 +49,22 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
           <div>
             {vaga.empresa.nome}: {vaga.titulo} - <span class="text-secondary">{vaga.tipo}</span>
           </div>
-          <div class="flex gap-2">
-            <div :for={tag <- vaga.tags} class="badge badge-soft badge-secundary">{tag.name}</div>
-          </div>
+          <.tags tags={vaga.tags} />
         </div>
         <div class="badge badge-soft badge-primary">R$ {vaga.salario_reais}</div>
+        <div class="badge badge-soft">{vaga.inserted_at_formatted}</div>
+
         <div class="badge badge-outline">São Paulo - SP</div>
       </li>
     </ul>
+    """
+  end
+
+  def tags(assigns) do
+    ~H"""
+    <div class="flex gap-2">
+      <div :for={tag <- @tags} class="badge badge-soft badge-secundary">{tag.name}</div>
+    </div>
     """
   end
 
@@ -70,7 +78,10 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
 
   defp load_vagas(socket) do
     assign_async(socket, :vagas, fn ->
-      {:ok, %{vagas: Vagas.list_vagas!(load: [:empresa, :tags, :salario_reais])}}
+      {:ok,
+       %{
+         vagas: Vagas.list_vagas!(load: [:empresa, :tags, :salario_reais, :inserted_at_formatted])
+       }}
     end)
   end
 end
