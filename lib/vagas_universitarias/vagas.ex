@@ -16,5 +16,11 @@ defmodule VagasUniversitarias.Vagas do
       define :create_empresa, action: :create
       define :like_empresa, action: :like
     end
+
+    resource VagasUniversitarias.Vagas.Tag do
+      define :list_tags, action: :read
+    end
+
+    resource VagasUniversitarias.Vagas.VagaTag
   end
 end

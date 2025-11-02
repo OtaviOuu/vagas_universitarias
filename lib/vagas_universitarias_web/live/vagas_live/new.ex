@@ -7,11 +7,13 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
 
   def mount(_params, _session, socket) do
     new_vaga_form = Vagas.form_to_create_vaga(actor: socket.assigns.current_user) |> to_form
+    available_tags = Vagas.list_tags!()
 
     socket =
       socket
       |> assign(page_title: "Publicar Nova Vaga")
       |> assign(new_vaga_form: new_vaga_form)
+      |> assign(available_tags: available_tags)
 
     {:ok, socket}
   end
@@ -38,7 +40,7 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
                 />
               </div>
 
-                        <div class="form-control">
+              <div class="form-control">
                 <.input
                   type="text"
                   field={@new_vaga_form[:titulo]}
@@ -61,6 +63,13 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
                   ]}
                 />
               </div>
+
+              <.input
+                type="select"
+                field={@new_vaga_form[:tags]}
+                multiple={true}
+                options={for tag <- @available_tags, do: {tag.name, tag.id}}
+              />
 
               <div class="form-control">
                 <.input
@@ -125,8 +134,6 @@ defmodule VagasUniversitariasWeb.VagasLive.New do
   end
 
   def handle_event("save", %{"form" => vaga_params}, socket) do
-    IO.inspect(socket.assigns.current_user)
-
     case AshPhoenix.Form.submit(socket.assigns.new_vaga_form,
            params: vaga_params
          ) do

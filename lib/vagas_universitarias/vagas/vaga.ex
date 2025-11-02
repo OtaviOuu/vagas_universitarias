@@ -8,6 +8,7 @@ defmodule VagasUniversitarias.Vagas.Vaga do
 
   alias VagasUniversitarias.Vagas.Empresa
   alias VagasUniversitarias.Vagas.Calculations.CentavosToReais
+
   postgres do
     table "vagas"
     repo VagasUniversitarias.Repo
@@ -15,14 +16,20 @@ defmodule VagasUniversitarias.Vagas.Vaga do
 
   actions do
     default_accept [:titulo, :tipo, :pdf, :empresa_id, :salario_centavos]
-    defaults [:read, :destroy, :create, :update]
+    defaults [:read, :destroy, :update]
+
+    create :create do
+      primary? true
+      accept [:titulo, :tipo, :pdf, :empresa_id, :salario_centavos]
+      argument :tags, {:array, :uuid}
+      change manage_relationship(:tags, type: :append)
+    end
 
     read :list_by_empresa do
       argument :empresa_id, :uuid, allow_nil?: false
 
       filter expr(empresa_id == ^arg(:empresa_id))
     end
-
   end
 
   policies do
@@ -61,6 +68,8 @@ defmodule VagasUniversitarias.Vagas.Vaga do
 
   relationships do
     belongs_to :empresa, Empresa, allow_nil?: false
+
+    many_to_many :tags, VagasUniversitarias.Vagas.Tag, through: VagasUniversitarias.Vagas.VagaTag
   end
 
   calculations do
