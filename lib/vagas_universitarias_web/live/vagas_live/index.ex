@@ -29,6 +29,8 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
     """
   end
 
+  # todo: um component para usar na lista de vagas e
+  # na lista de vagas associadas a uma empresa (sem imagem)
   def job_list(assigns) do
     ~H"""
     <ul class="list bg-base-100 rounded-box shadow-md">
@@ -39,24 +41,30 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
         class="list-row hover:bg-base-200"
         phx-click={JS.navigate(~p"/vagas/#{vaga.id}")}
       >
-        <div>
-          <img
-            class="size-10 rounded-box"
-            src={vaga.empresa.logo_url}
-          />
-        </div>
-        <div class="flex flex-col flex-1 gap-1">
-          <div>
-            {vaga.empresa.nome}: {vaga.titulo} - <span class="text-secondary">{vaga.tipo}</span>
-          </div>
-          <.tags tags={vaga.tags} />
-        </div>
-        <div class="badge badge-soft badge-primary">R$ {vaga.salario_reais}</div>
-        <div class="badge badge-soft">{vaga.inserted_at_formatted}</div>
-
-        <div class="badge badge-outline">São Paulo - SP</div>
+        <.job_details vaga={vaga} />
       </li>
     </ul>
+    """
+  end
+
+  def job_details(assigns) do
+    ~H"""
+    <div>
+      <img
+        class="size-10 rounded-box"
+        src={@vaga.empresa.logo_url}
+      />
+    </div>
+    <div class="flex flex-col flex-1 gap-1">
+      <div>
+        {@vaga.empresa.nome}: {@vaga.titulo} - <span class="text-secondary">{@vaga.tipo}</span>
+      </div>
+      <.tags tags={@vaga.tags} />
+    </div>
+    <div class="badge badge-soft badge-primary">R$ {@vaga.salario_reais}</div>
+    <div class="badge badge-soft">{@vaga.inserted_at_formatted}</div>
+
+    <div class="badge badge-outline">São Paulo - SP</div>
     """
   end
 
