@@ -77,10 +77,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
             <div class="card-body">
               <h2 class="card-title text-lg">Detalhes</h2>
               <div class="space-y-3">
-                <div>
-                  <div class="text-xs opacity-60 uppercase tracking-wide mb-1">Candidatos</div>
-                  <div class="font-medium">42 inscritos</div>
-                </div>
+
               </div>
             </div>
           </div>
