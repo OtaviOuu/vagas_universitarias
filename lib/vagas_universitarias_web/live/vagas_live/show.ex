@@ -6,7 +6,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
   alias VagasUniversitarias.Vagas
 
   def mount(%{"id" => id}, _session, socket) do
-    vaga = Vagas.get_vaga!(id, load: [:empresa, :salario_reais])
+    vaga = Vagas.get_vaga!(id, load: [:empresa, :salario_reais, :tags])
     IO.inspect(vaga)
     {:ok, assign(socket, vaga: vaga)}
   end
@@ -54,9 +54,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
               </div>
 
               <div class="flex gap-2 mt-4">
-                <div class="badge badge-soft badge-secondary">estágio</div>
-                <div class="badge badge-soft badge-secondary">tecnologia</div>
-                <div class="badge badge-soft badge-secondary">remoto</div>
+                <.tags tags={@vaga.tags} />
               </div>
 
               <div class="divider"></div>
@@ -65,9 +63,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
                 <img src={@vaga.pdf} />
               </div>
 
-              <div class="space-y-4">
-                descr
-              </div>
             </div>
           </div>
         </div>
@@ -92,6 +87,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
   end
 
   def handle_event("like", _value, socket) do
-    {:noreply, put_flash(socket, :info, "test")}
+    {:noreply, put_flash(socket, :info, "só funciona pra empresa")}
   end
 end
