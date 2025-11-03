@@ -30,16 +30,28 @@ defmodule VagasUniversitariasWeb.LiveUserAuth do
   end
 
   def on_mount(:live_user_required_without_profile, _params, _session, socket) do
-    if socket.assigns[:current_user] && !socket.assigns[:current_user].user_profile do
-      {:cont, socket}
+    if socket.assigns[:current_user] do
+      if !socket.assigns[:current_user].user_profile do
+        {:cont, socket}
+      else
+        socket =
+          socket
+          |> Phoenix.LiveView.put_flash(
+            :info,
+            "Você já possui um perfil de usuário."
+          )
+          |> Phoenix.LiveView.redirect(to: ~p"/user/profile")
+
+        {:halt, socket}
+      end
     else
       socket =
         socket
         |> Phoenix.LiveView.put_flash(
-          :error,
-          "Você já possui um perfil de usuário."
+          :info,
+          "Você precisa estar logado para acessar esta página."
         )
-        |> Phoenix.LiveView.redirect(to: ~p"/vagas")
+        |> Phoenix.LiveView.redirect(to: ~p"/sign-in")
 
       {:halt, socket}
     end
