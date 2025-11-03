@@ -2,7 +2,12 @@ defmodule VagasUniversitarias.Vagas.Empresa do
   use Ash.Resource,
     otp_app: :vagas_universitarias,
     domain: VagasUniversitarias.Vagas,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshJsonApi.Resource]
+
+  json_api do
+    type "empresa"
+  end
 
   postgres do
     table "empresas"
@@ -26,14 +31,22 @@ defmodule VagasUniversitarias.Vagas.Empresa do
   attributes do
     uuid_primary_key :id
 
-    attribute :nome, :string, allow_nil?: false
+    attribute :nome, :string do
+      allow_nil? false
+      public? true
+    end
 
     attribute :logo_url, :string,
       allow_nil?: false,
-      default: "/images/empresa_logo_placeholder.png"
+      default: "/images/empresa_logo_placeholder.png",
+      public?: true
 
     attribute :likes, :integer, default: 0, allow_nil?: false
-    attribute :descricao, :string, allow_nil?: true, default: "Descrição não fornecida."
+
+    attribute :descricao, :string,
+      allow_nil?: true,
+      default: "Descrição não fornecida.",
+      public?: true
 
     timestamps()
   end

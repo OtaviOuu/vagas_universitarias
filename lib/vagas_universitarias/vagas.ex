@@ -1,7 +1,7 @@
 defmodule VagasUniversitarias.Vagas do
   use Ash.Domain,
     otp_app: :vagas_universitarias,
-    extensions: [AshPhoenix]
+    extensions: [AshJsonApi.Domain, AshPhoenix]
 
   resources do
     resource VagasUniversitarias.Vagas.Vaga do
