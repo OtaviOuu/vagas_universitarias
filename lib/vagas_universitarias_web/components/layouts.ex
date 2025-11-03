@@ -40,7 +40,7 @@ defmodule VagasUniversitariasWeb.Layouts do
       <div class="navbar-start">
         <ul class="menu menu-horizontal px-1 gap-2 text-sm font-medium">
           <%= if @current_user do %>
-            <li><.link :if={@current_user.role == "admin"} navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm ml-2">Admin</.link></li>
+            <li><.link :if={@current_user.role == :admin} navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm ml-2">Admin</.link></li>
           <% else %>
             <.link navigate={~p"/sign-in"} class="btn btn-ghost normal-case text-sm ml-2">
               Login
