@@ -68,13 +68,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
     """
   end
 
-  def tags(assigns) do
-    ~H"""
-    <div class="flex gap-2">
-      <div :for={tag <- @tags} class="badge badge-soft badge-secundary">{tag.name}</div>
-    </div>
-    """
-  end
 
   defp set_page_title(socket) do
     assign(socket, :page_title, "Vagas Universitárias")

@@ -75,26 +75,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
         <div class="w-80 space-y-4">
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
-              <h2 class="card-title text-lg">Sobre a empresa</h2>
-              <div class="space-y-3">
-                <div class="flex items-center gap-2">
-                  <.icon name="hero-briefcase" class="w-5 h-5 opacity-60" />
-                  <span class="opacity-80">Serviços Financeiros</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <.icon name="hero-users" class="w-5 h-5 opacity-60" />
-                  <span class="opacity-80">5.000+ funcionários</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <.icon name="hero-globe-alt" class="w-5 h-5 opacity-60" />
-                  <span class="opacity-80">www.btgpactual.com</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
               <h2 class="card-title text-lg">Detalhes</h2>
               <div class="space-y-3">
                 <div>
