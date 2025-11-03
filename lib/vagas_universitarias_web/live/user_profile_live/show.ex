@@ -65,7 +65,7 @@ defmodule VagasUniversitariasWeb.UserProfileLive.Show do
                   </svg>
                   <div class="flex-1">
                     <div class="font-semibold">Universidade de São Paulo (USP)</div>
-                    <div class="text-sm opacity-70">Ciência da Computação • 3º ano</div>
+                    <div class="text-sm opacity-70">Ciências Atuárias</div>
                     <div class="text-sm opacity-60">Previsão de conclusão: Dez/2026</div>
                   </div>
                 </div>

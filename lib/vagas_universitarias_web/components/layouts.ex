@@ -38,30 +38,24 @@ defmodule VagasUniversitariasWeb.Layouts do
     ~H"""
     <header class="navbar bg-base-100 shadow-sm">
       <div class="navbar-start">
-        <div class="dropdown">
-          <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
-            <.icon name="hero-bars-3" class="size-5" />
-          </div>
-          <ul
-            tabindex="-1"
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li><.link navigate={~p"/forum/topics"}>Forum</.link></li>
-            <li><.link navigate={~p"/portfolio"}>Portfolio</.link></li>
-            <li><.link navigate={~p"/about"}>About</.link></li>
-            <li :if={@current_user}>{@current_user.email}</li>
-          </ul>
-        </div>
-
-        <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm ml-2">
-          Empresas
-        </.link>
-        <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm">
-          Vagas
-        </.link>
-        <.link navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm">
-          Admin
-        </.link>
+        <ul class="menu menu-horizontal px-1 gap-2 text-sm font-medium">
+          <%= if @current_user do %>
+            <li><.link :if={@current_user.role == "admin"} navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm ml-2">Admin</.link></li>
+          <% else %>
+            <.link navigate={~p"/sign-in"} class="btn btn-ghost normal-case text-sm ml-2">
+              Login
+            </.link>
+            <.link navigate={~p"/register"} class="btn btn-ghost normal-case text-sm ml-2">
+              Criar Conta
+            </.link>
+          <% end %>
+            <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm ml-2">
+              Empresas
+            </.link>
+            <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm ml-2">
+              Vagas
+            </.link>
+        </ul>
       </div>
 
       <div class="navbar-center">
@@ -78,13 +72,13 @@ defmodule VagasUniversitariasWeb.Layouts do
             <span class="badge badge-xs badge-primary indicator-item"></span>
           </div>
         </button>
-        <button class="btn btn-ghost btn-circle" phx-click={JS.navigate(~p"/user/profile")}>
+        <.button :if={@current_user} class="btn btn-ghost btn-circle" phx-click={JS.navigate(~p"/user/profile")}>
           <div class="avatar">
             <div class="rounded-full">
               <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
             </div>
           </div>
-        </button>
+        </.button>
       </div>
     </header>
 
