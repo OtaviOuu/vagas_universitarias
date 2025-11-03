@@ -62,7 +62,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
               <div class="space-y-4 mx-auto">
                 <img src={@vaga.pdf} />
               </div>
-
             </div>
           </div>
         </div>
@@ -71,9 +70,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Detalhes</h2>
-              <div class="space-y-3">
-
-              </div>
+              <div class="space-y-3"></div>
             </div>
           </div>
 

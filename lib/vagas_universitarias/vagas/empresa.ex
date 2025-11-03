@@ -19,11 +19,19 @@ defmodule VagasUniversitarias.Vagas.Empresa do
     end
   end
 
+  preparations do
+    prepare build(sort: [likes: :desc])
+  end
+
   attributes do
     uuid_primary_key :id
 
     attribute :nome, :string, allow_nil?: false
-    attribute :logo_url, :string, allow_nil?: false, default: "/images/empresa_logo_placeholder.png"
+
+    attribute :logo_url, :string,
+      allow_nil?: false,
+      default: "/images/empresa_logo_placeholder.png"
+
     attribute :likes, :integer, default: 0, allow_nil?: false
     attribute :descricao, :string, allow_nil?: true, default: "Descrição não fornecida."
 
@@ -36,9 +44,5 @@ defmodule VagasUniversitarias.Vagas.Empresa do
 
   aggregates do
     count :count_vagas, :vagas
-  end
-
-  preparations do
-    prepare build(sort: [likes: :desc])
   end
 end

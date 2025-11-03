@@ -21,67 +21,43 @@
       "references": null,
       "scale": null,
       "size": null,
-      "source": "nome",
-      "type": "text"
+      "source": "email",
+      "type": "citext"
     },
     {
       "allow_nil?": false,
-      "default": "\"https://via.placeholder.com/150\"",
+      "default": "\"user\"",
       "generated?": false,
       "precision": null,
       "primary_key?": false,
       "references": null,
       "scale": null,
       "size": null,
-      "source": "logo_url",
+      "source": "role",
       "type": "text"
-    },
-    {
-      "allow_nil?": false,
-      "default": "0",
-      "generated?": false,
-      "precision": null,
-      "primary_key?": false,
-      "references": null,
-      "scale": null,
-      "size": null,
-      "source": "likes",
-      "type": "bigint"
     },
     {
       "allow_nil?": true,
-      "default": "\"Descrição não fornecida.\"",
+      "default": "nil",
       "generated?": false,
       "precision": null,
       "primary_key?": false,
       "references": null,
       "scale": null,
       "size": null,
-      "source": "descricao",
+      "source": "hashed_password",
       "type": "text"
     },
     {
-      "allow_nil?": false,
-      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
+      "allow_nil?": true,
+      "default": "nil",
       "generated?": false,
       "precision": null,
       "primary_key?": false,
       "references": null,
       "scale": null,
       "size": null,
-      "source": "inserted_at",
-      "type": "utc_datetime_usec"
-    },
-    {
-      "allow_nil?": false,
-      "default": "fragment(\"(now() AT TIME ZONE 'utc')\")",
-      "generated?": false,
-      "precision": null,
-      "primary_key?": false,
-      "references": null,
-      "scale": null,
-      "size": null,
-      "source": "updated_at",
+      "source": "confirmed_at",
       "type": "utc_datetime_usec"
     }
   ],
@@ -90,8 +66,23 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "3E9DEE955B1A4B4DD20443CC9C5EB327A48EC3DBA2C1F189948070FC753D32E0",
-  "identities": [],
+  "hash": "BBB4B82CF8481DE705E43DA4A71D19AEB1192E3B6E2FE2507DD64DF08BDA2BA5",
+  "identities": [
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "users_unique_email_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "email"
+        }
+      ],
+      "name": "unique_email",
+      "nils_distinct?": true,
+      "where": null
+    }
+  ],
   "multitenancy": {
     "attribute": null,
     "global": null,
@@ -99,5 +90,5 @@
   },
   "repo": "Elixir.VagasUniversitarias.Repo",
   "schema": null,
-  "table": "empresas"
+  "table": "users"
 }

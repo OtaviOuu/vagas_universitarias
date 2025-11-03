@@ -32,13 +32,12 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Index do
                 <.loading_spinner />
               </:loading>
               <:failed :let={reason}>{reason}</:failed>
-              <.empresas_grid empresas={empresas}/>
+              <.empresas_grid empresas={empresas} />
             </.async_result>
           </div>
         </div>
 
         <div class="w-80 space-y-4">
-
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Estatísticas</h2>
@@ -62,49 +61,50 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Index do
 
   def empresas_grid(assigns) do
     ~H"""
-      <div :for={empresa <- @empresas}
-        class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
-        phx-click={JS.navigate(~p"/empresas/#{empresa.id}")}
-      >
-        <div class="card-body">
-          <div class="flex items-start gap-4">
-            <div class="avatar">
-              <div class="w-16 h-16 rounded-box">
-                <img src={empresa.logo_url} />
-              </div>
+    <div
+      :for={empresa <- @empresas}
+      class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+      phx-click={JS.navigate(~p"/empresas/#{empresa.id}")}
+    >
+      <div class="card-body">
+        <div class="flex items-start gap-4">
+          <div class="avatar">
+            <div class="w-16 h-16 rounded-box">
+              <img src={empresa.logo_url} />
             </div>
-            <div class="flex-1">
-              <h3 class="card-title text-lg">{empresa.nome}</h3>
-              <p class="text-sm opacity-60">Serviços Financeiros</p>
-            </div>
-            <button class="btn btn-ghost btn-sm btn-square">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                />
-              </svg>
-            </button>
           </div>
+          <div class="flex-1">
+            <h3 class="card-title text-lg">{empresa.nome}</h3>
+            <p class="text-sm opacity-60">Serviços Financeiros</p>
+          </div>
+          <button class="btn btn-ghost btn-sm btn-square">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+              />
+            </svg>
+          </button>
+        </div>
 
-          <p class="text-sm opacity-80 mt-2 line-clamp-2">
-            {empresa.descricao}
-          </p>
+        <p class="text-sm opacity-80 mt-2 line-clamp-2">
+          {empresa.descricao}
+        </p>
 
-          <div class="flex gap-4 mt-3">
-            <div class="flex-1">
-              <div class="text-xs opacity-60">Vagas</div>
-              <div class="font-bold text-primary">{empresa.count_vagas} vagas</div>
-            </div>
-            <div class="flex-1">
-              <div class="text-xs opacity-60">Likes</div>
-              <div class="font-bold">{empresa.likes}</div>
-            </div>
+        <div class="flex gap-4 mt-3">
+          <div class="flex-1">
+            <div class="text-xs opacity-60">Vagas</div>
+            <div class="font-bold text-primary">{empresa.count_vagas} vagas</div>
+          </div>
+          <div class="flex-1">
+            <div class="text-xs opacity-60">Likes</div>
+            <div class="font-bold">{empresa.likes}</div>
           </div>
         </div>
       </div>
+    </div>
     """
   end
 

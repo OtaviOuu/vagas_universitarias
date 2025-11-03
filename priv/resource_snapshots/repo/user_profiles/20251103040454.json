@@ -13,18 +13,6 @@
       "type": "uuid"
     },
     {
-      "allow_nil?": false,
-      "default": "nil",
-      "generated?": false,
-      "precision": null,
-      "primary_key?": false,
-      "references": null,
-      "scale": null,
-      "size": null,
-      "source": "titulo",
-      "type": "text"
-    },
-    {
       "allow_nil?": true,
       "default": "nil",
       "generated?": false,
@@ -33,7 +21,7 @@
       "references": null,
       "scale": null,
       "size": null,
-      "source": "pdf",
+      "source": "full_name",
       "type": "text"
     },
     {
@@ -45,7 +33,31 @@
       "references": null,
       "scale": null,
       "size": null,
-      "source": "tipo",
+      "source": "nick_name",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "bio",
+      "type": "text"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "avatar_url",
       "type": "text"
     },
     {
@@ -91,16 +103,16 @@
           "global": null,
           "strategy": null
         },
-        "name": "vagas_empresa_id_fkey",
+        "name": "user_profiles_user_id_fkey",
         "on_delete": null,
         "on_update": null,
         "primary_key?": true,
         "schema": "public",
-        "table": "empresas"
+        "table": "users"
       },
       "scale": null,
       "size": null,
-      "source": "empresa_id",
+      "source": "user_id",
       "type": "uuid"
     }
   ],
@@ -109,8 +121,23 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "B8326E57337D6CD49C346E40F09C5F1AC3A22DFD7F05D52869BD1567B058C8B5",
-  "identities": [],
+  "hash": "F588710AAF0765BE804B14877C7CA66189A90582C5F05B2E57B272B9F779DDA1",
+  "identities": [
+    {
+      "all_tenants?": false,
+      "base_filter": null,
+      "index_name": "user_profiles_user_id_unique_index",
+      "keys": [
+        {
+          "type": "atom",
+          "value": "user_id"
+        }
+      ],
+      "name": "user_id_unique",
+      "nils_distinct?": true,
+      "where": null
+    }
+  ],
   "multitenancy": {
     "attribute": null,
     "global": null,
@@ -118,5 +145,5 @@
   },
   "repo": "Elixir.VagasUniversitarias.Repo",
   "schema": null,
-  "table": "vagas"
+  "table": "user_profiles"
 }

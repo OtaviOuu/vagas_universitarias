@@ -59,9 +59,7 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
               </div>
             </div>
           </div>
-
-
-
+          
     <!-- Lista de Vagas -->
           <.async_result :let={empresa} assign={@empresa}>
             <:loading>
@@ -71,19 +69,19 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Show do
             <.job_listing vagas={empresa.vagas} />
           </.async_result>
         </div>
-
+        
     <!-- Coluna Lateral -->
         <div class="w-80 space-y-4">
           <!-- Card Sobre a Empresa -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Sobre a Empresa</h2>
-              <p class="text-sm opacity-80 leading-relaxed" :if={@empresa.ok?}>
+              <p :if={@empresa.ok?} class="text-sm opacity-80 leading-relaxed">
                 {@empresa.result.descricao}
               </p>
             </div>
           </div>
-
+          
     <!-- Card de Estatísticas -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">

@@ -10,12 +10,17 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
           <!-- Botão Voltar -->
           <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/forum")}>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
             </svg>
             Voltar para o fórum
           </button>
-
-          <!-- Post Principal -->
+          
+    <!-- Post Principal -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <div class="flex gap-4">
@@ -23,18 +28,28 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 <div class="flex flex-col items-center gap-2 min-w-[50px]">
                   <button class="btn btn-ghost btn-sm btn-square hover:text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 15l7-7 7 7"
+                      />
                     </svg>
                   </button>
                   <span class="font-bold text-2xl">142</span>
                   <button class="btn btn-ghost btn-sm btn-square hover:text-error">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </button>
                 </div>
-
-                <!-- Conteúdo -->
+                
+    <!-- Conteúdo -->
                 <div class="flex-1">
                   <!-- Header do Post -->
                   <div class="flex items-center gap-2 mb-3">
@@ -53,18 +68,23 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                     <div class="dropdown dropdown-end">
                       <button class="btn btn-ghost btn-sm btn-square">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                          />
                         </svg>
                       </button>
                     </div>
                   </div>
-
-                  <!-- Título -->
+                  
+    <!-- Título -->
                   <h1 class="text-2xl font-bold mb-4">
                     Como se preparar para entrevistas técnicas em Big Techs?
                   </h1>
-
-                  <!-- Conteúdo Completo -->
+                  
+    <!-- Conteúdo Completo -->
                   <div class="prose max-w-none">
                     <p class="opacity-80 leading-relaxed mb-4">
                       Pessoal, estou me candidatando para vagas de estágio em empresas como Google,
@@ -89,30 +109,50 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       Qualquer dica ou experiência compartilhada será muito valiosa! 🙏
                     </p>
                   </div>
-
-                  <!-- Ações -->
+                  
+    <!-- Ações -->
                   <div class="flex items-center gap-4 mt-6 pt-4 border-t border-base-300">
                     <button class="btn btn-ghost btn-sm gap-2">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
                       </svg>
                       <span>28 comentários</span>
                     </button>
                     <button class="btn btn-ghost btn-sm gap-2">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                        />
                       </svg>
                       <span>Compartilhar</span>
                     </button>
                     <button class="btn btn-ghost btn-sm gap-2">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                        />
                       </svg>
                       <span>Salvar</span>
                     </button>
                     <button class="btn btn-ghost btn-sm gap-2 ml-auto">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"
+                        />
                       </svg>
                       <span>Reportar</span>
                     </button>
@@ -121,8 +161,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </div>
             </div>
           </div>
-
-          <!-- Ordenação de Comentários -->
+          
+    <!-- Ordenação de Comentários -->
           <div class="flex items-center justify-between">
             <span class="text-sm opacity-60">28 comentários</span>
             <div class="tabs tabs-boxed tabs-sm">
@@ -131,8 +171,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               <a class="tab">Mais antigos</a>
             </div>
           </div>
-
-          <!-- Campo de Novo Comentário -->
+          
+    <!-- Campo de Novo Comentário -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <div class="flex gap-3">
@@ -155,8 +195,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </div>
             </div>
           </div>
-
-          <!-- Lista de Comentários -->
+          
+    <!-- Lista de Comentários -->
           <div class="space-y-4">
             <!-- Comentário 1 -->
             <div class="card bg-base-100 shadow-md">
@@ -166,18 +206,28 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                   <div class="flex flex-col items-center gap-1 min-w-[40px]">
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
                       </svg>
                     </button>
                     <span class="font-bold text-sm">45</span>
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </button>
                   </div>
-
-                  <!-- Conteúdo do Comentário -->
+                  
+    <!-- Conteúdo do Comentário -->
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
                       <div class="avatar placeholder">
@@ -201,20 +251,30 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       <button class="btn btn-ghost btn-xs">Compartilhar</button>
                       <button class="btn btn-ghost btn-xs">Reportar</button>
                     </div>
-
-                    <!-- Resposta aninhada -->
+                    
+    <!-- Resposta aninhada -->
                     <div class="ml-6 mt-4 pl-4 border-l-2 border-base-300">
                       <div class="flex gap-3">
                         <div class="flex flex-col items-center gap-1 min-w-[30px]">
                           <button class="btn btn-ghost btn-xs btn-square">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 15l7-7 7 7"
+                              />
                             </svg>
                           </button>
                           <span class="font-bold text-xs">12</span>
                           <button class="btn btn-ghost btn-xs btn-square">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 9l-7 7-7-7"
+                              />
                             </svg>
                           </button>
                         </div>
@@ -244,21 +304,31 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 </div>
               </div>
             </div>
-
-            <!-- Comentário 2 -->
+            
+    <!-- Comentário 2 -->
             <div class="card bg-base-100 shadow-md">
               <div class="card-body">
                 <div class="flex gap-4">
                   <div class="flex flex-col items-center gap-1 min-w-[40px]">
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
                       </svg>
                     </button>
                     <span class="font-bold text-sm">32</span>
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -287,21 +357,31 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 </div>
               </div>
             </div>
-
-            <!-- Comentário 3 -->
+            
+    <!-- Comentário 3 -->
             <div class="card bg-base-100 shadow-md">
               <div class="card-body">
                 <div class="flex gap-4">
                   <div class="flex flex-col items-center gap-1 min-w-[40px]">
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 15l7-7 7 7"
+                        />
                       </svg>
                     </button>
                     <span class="font-bold text-sm">18</span>
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 9l-7 7-7-7"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -330,15 +410,15 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 </div>
               </div>
             </div>
-
-            <!-- Botão Carregar Mais -->
+            
+    <!-- Botão Carregar Mais -->
             <button class="btn btn-outline btn-block">
               Carregar mais comentários (25 restantes)
             </button>
           </div>
         </div>
-
-        <!-- Coluna Lateral -->
+        
+    <!-- Coluna Lateral -->
         <div class="w-80 space-y-4">
           <!-- Card do Autor -->
           <div class="card bg-base-100 shadow-md">
@@ -372,8 +452,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               <button class="btn btn-primary btn-sm mt-2">Ver perfil</button>
             </div>
           </div>
-
-          <!-- Card de Posts Relacionados -->
+          
+    <!-- Card de Posts Relacionados -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Posts relacionados</h2>
@@ -407,8 +487,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </ul>
             </div>
           </div>
-
-          <!-- Card de Regras -->
+          
+    <!-- Card de Regras -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Lembre-se</h2>

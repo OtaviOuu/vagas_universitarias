@@ -37,6 +37,18 @@
       "type": "text"
     },
     {
+      "allow_nil?": true,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": null,
+      "scale": null,
+      "size": null,
+      "source": "salario_centavos",
+      "type": "bigint"
+    },
+    {
       "allow_nil?": false,
       "default": "nil",
       "generated?": false,
@@ -71,6 +83,37 @@
       "size": null,
       "source": "updated_at",
       "type": "utc_datetime_usec"
+    },
+    {
+      "allow_nil?": false,
+      "default": "nil",
+      "generated?": false,
+      "precision": null,
+      "primary_key?": false,
+      "references": {
+        "deferrable": false,
+        "destination_attribute": "id",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "index?": false,
+        "match_type": null,
+        "match_with": null,
+        "multitenancy": {
+          "attribute": null,
+          "global": null,
+          "strategy": null
+        },
+        "name": "vagas_empresa_id_fkey",
+        "on_delete": null,
+        "on_update": null,
+        "primary_key?": true,
+        "schema": "public",
+        "table": "empresas"
+      },
+      "scale": null,
+      "size": null,
+      "source": "empresa_id",
+      "type": "uuid"
     }
   ],
   "base_filter": null,
@@ -78,7 +121,7 @@
   "custom_indexes": [],
   "custom_statements": [],
   "has_create_action": true,
-  "hash": "BAC86B68737332A44028FD1E5940486FF540A7B967512B46A13094117AFF9D3B",
+  "hash": "46A6E737F1034C2E75AD0383BC00F4AB2171A1D8853D619F8C4BC9CD5DEAFBF8",
   "identities": [],
   "multitenancy": {
     "attribute": null,

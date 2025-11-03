@@ -40,7 +40,15 @@ defmodule VagasUniversitariasWeb.Layouts do
       <div class="navbar-start">
         <ul class="menu menu-horizontal px-1 gap-2 text-sm font-medium">
           <%= if @current_user do %>
-            <li><.link :if={@current_user.role == :admin} navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm ml-2">Admin</.link></li>
+            <li>
+              <.link
+                :if={@current_user.role == :admin}
+                navigate={~p"/admin/home"}
+                class="btn btn-ghost normal-case text-sm ml-2"
+              >
+                Admin
+              </.link>
+            </li>
           <% else %>
             <.link navigate={~p"/sign-in"} class="btn btn-ghost normal-case text-sm ml-2">
               Login
@@ -49,12 +57,12 @@ defmodule VagasUniversitariasWeb.Layouts do
               Criar Conta
             </.link>
           <% end %>
-            <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm ml-2">
-              Empresas
-            </.link>
-            <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm ml-2">
-              Vagas
-            </.link>
+          <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm ml-2">
+            Empresas
+          </.link>
+          <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm ml-2">
+            Vagas
+          </.link>
         </ul>
       </div>
 
@@ -72,7 +80,11 @@ defmodule VagasUniversitariasWeb.Layouts do
             <span class="badge badge-xs badge-primary indicator-item"></span>
           </div>
         </button>
-        <.button :if={@current_user} class="btn btn-ghost btn-circle" phx-click={JS.navigate(~p"/user/profile")}>
+        <.button
+          :if={@current_user}
+          class="btn btn-ghost btn-circle"
+          phx-click={JS.navigate(~p"/user/profile")}
+        >
           <div class="avatar">
             <div class="rounded-full">
               <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />

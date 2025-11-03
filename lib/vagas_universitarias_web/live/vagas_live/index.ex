@@ -68,7 +68,6 @@ defmodule VagasUniversitariasWeb.VagasLive.Index do
     """
   end
 
-
   defp set_page_title(socket) do
     assign(socket, :page_title, "Vagas Universitárias")
   end

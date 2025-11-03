@@ -478,7 +478,7 @@ defmodule VagasUniversitariasWeb.CoreComponents do
     """
   end
 
-    def tags(assigns) do
+  def tags(assigns) do
     ~H"""
     <div class="flex gap-2">
       <div :for={tag <- @tags} class="badge badge-soft badge-secundary">{tag.name}</div>
