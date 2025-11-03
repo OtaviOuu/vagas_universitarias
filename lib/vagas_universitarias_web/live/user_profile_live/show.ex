@@ -1,7 +1,8 @@
 defmodule VagasUniversitariasWeb.UserProfileLive.Show do
   use VagasUniversitariasWeb, :live_view
 
-  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_required}
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_required_with_profile}
+
 
   def mount(_params, _session, socket) do
     IO.inspect(socket, label: "Current User in UserProfileLive.Show")
