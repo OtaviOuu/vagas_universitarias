@@ -1,5 +1,13 @@
 defmodule VagasUniversitariasWeb.PostsLive.Index do
   use VagasUniversitariasWeb, :live_view
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_required_with_profile}
+
+  alias VagasUniversitarias.Social
+
+  def mount(_params, _session, socket) do
+    posts = Social.list_posts!()
+    {:ok, assign(socket, posts: posts)}
+  end
 
   def render(assigns) do
     ~H"""
@@ -25,7 +33,11 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
             Criar nova discussão
           </button>
 
-          <div :for={_post <- 1..5} class="space-y-3" phx-click={JS.navigate(~p"/forum/topics/#{1}")}>
+          <div
+            :for={post <- @posts}
+            class="space-y-3"
+            phx-click={JS.navigate(~p"/forum/topics/#{post.id}")}
+          >
             <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
               <div class="card-body p-4">
                 <div class="flex gap-4">
@@ -66,47 +78,21 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
                     </div>
 
                     <h3 class="font-bold text-lg hover:text-primary transition-colors">
-                      Como se preparar para entrevistas técnicas em Big Techs?
+                      {post.title}
                     </h3>
                     <p class="text-sm opacity-80 mt-2 line-clamp-2">
-                      Pessoal, estou me candidatando para vagas de estágio em empresas como Google,
-                      Meta e Amazon. Queria saber de vocês que já passaram por esse processo: quais
-                      são as melhores estratégias de estudo? Vale a pena fazer cursos específicos...
+                      {post.body}
                     </p>
 
                     <div class="flex items-center gap-4 mt-3">
                       <button class="btn btn-ghost btn-xs gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                          />
-                        </svg>
-                        <span>28 comentários</span>
+                        <.icon name="hero-chat-bubble-oval-left-ellipsis" /> 29 comentários
                       </button>
                       <button class="btn btn-ghost btn-xs gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                          />
-                        </svg>
-                        <span>Compartilhar</span>
+                        <.icon name="hero-share" /> 5 compartilhamentos
                       </button>
                       <button class="btn btn-ghost btn-xs gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                          />
-                        </svg>
-                        <span>Salvar</span>
+                        <.icon name="hero-eye" /> 1.2k
                       </button>
                     </div>
                   </div>

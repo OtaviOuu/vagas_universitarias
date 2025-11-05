@@ -1,6 +1,14 @@
 defmodule VagasUniversitariasWeb.PostsLive.Show do
   use VagasUniversitariasWeb, :live_view
 
+  alias VagasUniversitarias.Social
+
+  def mount(%{"id" => id}, _session, socket) do
+    post = Social.get_post!(id)
+
+    {:ok, assign(socket, post: post)}
+  end
+
   def render(assigns) do
     ~H"""
     <Layouts.app {assigns}>
@@ -81,32 +89,13 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                   
     <!-- Título -->
                   <h1 class="text-2xl font-bold mb-4">
-                    Como se preparar para entrevistas técnicas em Big Techs?
+                    {@post.title}
                   </h1>
                   
     <!-- Conteúdo Completo -->
                   <div class="prose max-w-none">
                     <p class="opacity-80 leading-relaxed mb-4">
-                      Pessoal, estou me candidatando para vagas de estágio em empresas como Google,
-                      Meta e Amazon. Queria saber de vocês que já passaram por esse processo: quais
-                      são as melhores estratégias de estudo? Vale a pena fazer cursos específicos?
-                    </p>
-                    <p class="opacity-80 leading-relaxed mb-4">
-                      Atualmente estou no 3º ano de Ciência da Computação e tenho conhecimento em
-                      estruturas de dados básicas, mas sinto que preciso me aprofundar muito mais.
-                      Tenho cerca de 4 meses para me preparar antes das aplicações.
-                    </p>
-                    <p class="opacity-80 leading-relaxed">
-                      Algumas dúvidas específicas:
-                    </p>
-                    <ul class="list-disc list-inside opacity-80 space-y-1 mb-4">
-                      <li>LeetCode é suficiente ou preciso de outras plataformas?</li>
-                      <li>Quanto tempo por dia vocês dedicaram aos estudos?</li>
-                      <li>Como foi a parte de system design para estágios?</li>
-                      <li>Algum livro ou curso específico que recomendariam?</li>
-                    </ul>
-                    <p class="opacity-80 leading-relaxed">
-                      Qualquer dica ou experiência compartilhada será muito valiosa! 🙏
+                      {@post.body}
                     </p>
                   </div>
                   

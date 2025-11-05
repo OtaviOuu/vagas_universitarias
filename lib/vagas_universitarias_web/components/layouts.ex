@@ -63,6 +63,9 @@ defmodule VagasUniversitariasWeb.Layouts do
           <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm ml-2">
             Vagas
           </.link>
+          <.link navigate={~p"/forum/topics"} class="btn btn-ghost normal-case text-sm ml-2">
+            Forum
+          </.link>
         </ul>
       </div>
 

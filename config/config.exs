@@ -62,6 +62,7 @@ config :vagas_universitarias,
   ecto_repos: [VagasUniversitarias.Repo],
   generators: [timestamp_type: :utc_datetime],
   ash_domains: [
+    VagasUniversitarias.Social,
     VagasUniversitarias.Profiles,
     VagasUniversitarias.Vagas,
     VagasUniversitarias.Accounts
