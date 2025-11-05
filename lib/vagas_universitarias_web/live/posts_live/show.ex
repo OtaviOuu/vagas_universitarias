@@ -4,7 +4,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
   alias VagasUniversitarias.Social
 
   def mount(%{"id" => id}, _session, socket) do
-    post = Social.get_post!(id)
+    post = Social.get_post!(id, load: [comments: [:author]])
 
     {:ok, assign(socket, post: post)}
   end
@@ -188,7 +188,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
     <!-- Lista de Comentários -->
           <div class="space-y-4">
             <!-- Comentário 1 -->
-            <div class="card bg-base-100 shadow-md">
+            <div :for={comment <- @post.comments} class="card bg-base-100 shadow-md">
               <div class="card-body">
                 <div class="flex gap-4">
                   <!-- Votação -->
@@ -224,16 +224,12 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                           <span class="text-xs">MS</span>
                         </div>
                       </div>
-                      <span class="font-medium text-sm">maria_dev</span>
+                      <span class="font-medium text-sm">{comment.author.nick_name}</span>
                       <div class="badge badge-success badge-xs">TOP</div>
                       <span class="text-xs opacity-60">• há 2 horas</span>
                     </div>
                     <p class="text-sm opacity-80 leading-relaxed mb-3">
-                      Passei pelo processo da Google ano passado! Minhas dicas: 1) LeetCode é essencial,
-                      foque em problemas médios/difíceis; 2) O livro "Cracking the Coding Interview" é
-                      obrigatório; 3) Pratique explicar seu raciocínio em voz alta; 4) System design
-                      geralmente é mais leve para estágios, mas não ignore completamente. Dediquei
-                      2-3h por dia durante 3 meses. Boa sorte! 🚀
+                      {comment.content}
                     </p>
                     <div class="flex items-center gap-3">
                       <button class="btn btn-ghost btn-xs">Responder</button>
@@ -294,112 +290,6 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </div>
             </div>
             
-    <!-- Comentário 2 -->
-            <div class="card bg-base-100 shadow-md">
-              <div class="card-body">
-                <div class="flex gap-4">
-                  <div class="flex flex-col items-center gap-1 min-w-[40px]">
-                    <button class="btn btn-ghost btn-xs btn-square">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <span class="font-bold text-sm">32</span>
-                    <button class="btn btn-ghost btn-xs btn-square">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-2">
-                      <div class="avatar placeholder">
-                        <div class="bg-secondary text-secondary-content rounded-full w-8 h-8">
-                          <span class="text-xs">PC</span>
-                        </div>
-                      </div>
-                      <span class="font-medium text-sm">pedro_code</span>
-                      <span class="text-xs opacity-60">• há 3 horas</span>
-                    </div>
-                    <p class="text-sm opacity-80 leading-relaxed mb-3">
-                      Além do LeetCode, recomendo muito o AlgoExpert. É pago, mas tem explicações
-                      em vídeo muito boas. Outra dica: pratique mock interviews com amigos ou use
-                      plataformas como Pramp. A parte comportamental também é importante!
-                    </p>
-                    <div class="flex items-center gap-3">
-                      <button class="btn btn-ghost btn-xs">Responder</button>
-                      <button class="btn btn-ghost btn-xs">Compartilhar</button>
-                      <button class="btn btn-ghost btn-xs">Reportar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-    <!-- Comentário 3 -->
-            <div class="card bg-base-100 shadow-md">
-              <div class="card-body">
-                <div class="flex gap-4">
-                  <div class="flex flex-col items-center gap-1 min-w-[40px]">
-                    <button class="btn btn-ghost btn-xs btn-square">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <span class="font-bold text-sm">18</span>
-                    <button class="btn btn-ghost btn-xs btn-square">
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-
-                  <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-2">
-                      <div class="avatar placeholder">
-                        <div class="bg-info text-info-content rounded-full w-8 h-8">
-                          <span class="text-xs">AL</span>
-                        </div>
-                      </div>
-                      <span class="font-medium text-sm">ana_lima</span>
-                      <span class="text-xs opacity-60">• há 5 horas</span>
-                    </div>
-                    <p class="text-sm opacity-80 leading-relaxed mb-3">
-                      Não esqueça de estudar os fundamentos! Big-O notation, recursão, árvores,
-                      grafos. Muita gente foca só em resolver problemas e esquece da teoria.
-                      O canal do Abdul Bari no YouTube tem excelentes explicações sobre algoritmos.
-                    </p>
-                    <div class="flex items-center gap-3">
-                      <button class="btn btn-ghost btn-xs">Responder</button>
-                      <button class="btn btn-ghost btn-xs">Compartilhar</button>
-                      <button class="btn btn-ghost btn-xs">Reportar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
     <!-- Botão Carregar Mais -->
             <button class="btn btn-outline btn-block">
               Carregar mais comentários (25 restantes)
@@ -424,7 +314,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                   <div class="text-xs opacity-60">Membro há 6 meses</div>
                 </div>
               </div>
-              <div class="stats stats-vertical shadow-sm mt-3">
+              <div class="stats stats-vertical mt-3">
                 <div class="stat p-2">
                   <div class="stat-title text-xs">Karma</div>
                   <div class="stat-value text-lg">1,234</div>

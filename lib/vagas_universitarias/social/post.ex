@@ -41,5 +41,7 @@ defmodule VagasUniversitarias.Social.Post do
     belongs_to :author, VagasUniversitarias.Profiles.UserProfile do
       allow_nil? false
     end
+
+    has_many :comments, VagasUniversitarias.Social.Comment
   end
 end
