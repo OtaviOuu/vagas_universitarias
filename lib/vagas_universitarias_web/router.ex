@@ -57,6 +57,8 @@ defmodule VagasUniversitariasWeb.Router do
       live "/user/profile/new", UserProfileLive.New, :new
 
       live "/forum/topics", PostsLive.Index, :index
+      live "/forum/topics/new", PostsLive.New, :new
+
       live "/forum/topics/:id", PostsLive.Show, :show
     end
   end

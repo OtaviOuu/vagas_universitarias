@@ -12,8 +12,13 @@ defmodule VagasUniversitarias.Social.Post do
   end
 
   actions do
-    default_accept [:title, :body, :author_id]
-    defaults [:read, :destroy, create: :*, update: :*]
+    default_accept [:title, :body]
+    defaults [:read, :destroy, update: :*]
+
+    create :create do
+      primary? true
+      change relate_actor(:author)
+    end
   end
 
   policies do
