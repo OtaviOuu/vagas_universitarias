@@ -5,7 +5,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
   alias VagasUniversitarias.Social
 
   def mount(_params, _session, socket) do
-    posts = Social.list_posts!()
+    posts = Social.list_posts!(load: [:author])
     {:ok, assign(socket, posts: posts)}
   end
 
@@ -59,12 +59,10 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
 
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
-                      <div class="avatar placeholder">
-                        <div class="bg-neutral text-neutral-content rounded-full w-6 h-6">
-                          <span class="text-xs">JS</span>
-                        </div>
+                      <div class="w-8 h-8">
+                        <.avatar avatar_url={post.author.avatar_url} />
                       </div>
-                      <span class="text-sm font-medium">joao_silva</span>
+                      <span class="text-sm font-medium">{post.author.nick_name}</span>
                       <span class="text-xs opacity-60">• há 3 horas</span>
                       <div class="badge badge-primary badge-sm">Dúvida</div>
                     </div>

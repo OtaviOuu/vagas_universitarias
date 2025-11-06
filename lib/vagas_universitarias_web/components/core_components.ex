@@ -485,4 +485,14 @@ defmodule VagasUniversitariasWeb.CoreComponents do
     </div>
     """
   end
+
+  def avatar(assigns) do
+    ~H"""
+    <div class="avatar">
+      <div class="rounded-full">
+        <img src={@avatar_url} />
+      </div>
+    </div>
+    """
+  end
 end
