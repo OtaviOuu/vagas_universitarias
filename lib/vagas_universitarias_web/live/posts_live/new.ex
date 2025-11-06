@@ -78,9 +78,14 @@ defmodule VagasUniversitariasWeb.PostsLive.New do
          |> put_flash(:info, "Post criado com sucesso!")
          |> push_navigate(to: ~p"/forum/topics")}
 
+
       {:error, form} ->
-        IO.inspect(form.errors, label: "Form errors")
-        {:noreply, assign(socket, new_post_form: to_form(form))}
+        socket =
+          socket
+          |> put_flash(:error, "Erro ao criar o post. Verifique os campos e tente novamente.")
+          |> assign(new_post_form: to_form(form))
+
+        {:noreply, socket}
     end
   end
 end

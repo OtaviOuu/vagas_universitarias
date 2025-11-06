@@ -6,6 +6,8 @@ defmodule VagasUniversitarias.Social.Post do
     authorizers: [Ash.Policy.Authorizer],
     extensions: [AshJsonApi.Resource, AshAuthentication]
 
+  alias VagasUniversitarias.Profiles
+
   postgres do
     table "posts"
     repo VagasUniversitarias.Repo
@@ -18,6 +20,13 @@ defmodule VagasUniversitarias.Social.Post do
     create :create do
       primary? true
       change relate_actor(:author)
+      transaction? true
+
+      change fn changeset, ctx ->
+        Ash.Changeset.after_action(changeset, fn changeset, result ->
+          Profiles.consume_daily_post_quota(result.author, actor: ctx.actor)
+        end)
+      end
     end
   end
 

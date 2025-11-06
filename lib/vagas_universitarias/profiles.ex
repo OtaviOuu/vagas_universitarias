@@ -6,6 +6,7 @@ defmodule VagasUniversitarias.Profiles do
   resources do
     resource VagasUniversitarias.Profiles.UserProfile do
       define :create_user_profile, action: :create
+      define :consume_daily_post_quota, action: :consume_daily_post_quota
     end
   end
 end
