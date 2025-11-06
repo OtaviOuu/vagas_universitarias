@@ -115,7 +115,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Comunidade</h2>
-              <div class="stats stats-vertical shadow-sm">
+              <div class="stats stats-vertical">
                 <div class="stat p-3">
                   <div class="stat-title text-xs">Membros</div>
                   <div class="stat-value text-xl">12.5k</div>

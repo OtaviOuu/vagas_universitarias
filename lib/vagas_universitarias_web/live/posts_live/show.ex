@@ -5,8 +5,12 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
   def mount(%{"id" => id}, _session, socket) do
     post = Social.get_post!(id, load: [comments: [:author]])
+    user = socket.assigns.current_user
 
-    {:ok, assign(socket, post: post)}
+    create_comment_form =
+      Social.form_to_create_comment(id, actor: user.user_profile) |> to_form
+
+    {:ok, assign(socket, post: post, user: user, create_comment_form: create_comment_form)}
   end
 
   def render(assigns) do
@@ -161,30 +165,6 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
             </div>
           </div>
           
-    <!-- Campo de Novo Comentário -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <div class="flex gap-3">
-                <div class="avatar placeholder">
-                  <div class="bg-primary text-primary-content rounded-full w-10 h-10">
-                    <span class="text-sm">VC</span>
-                  </div>
-                </div>
-                <div class="flex-1">
-                  <textarea
-                    class="textarea textarea-bordered w-full"
-                    placeholder="Adicione um comentário..."
-                    rows="3"
-                  ></textarea>
-                  <div class="flex justify-end gap-2 mt-2">
-                    <button class="btn btn-ghost btn-sm">Cancelar</button>
-                    <button class="btn btn-primary btn-sm">Comentar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
     <!-- Lista de Comentários -->
           <div class="space-y-4">
             <!-- Comentário 1 -->
@@ -238,7 +218,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                     </div>
                     
     <!-- Resposta aninhada -->
-                    <div class="ml-6 mt-4 pl-4 border-l-2 border-base-300">
+                    <div :if={false} class="ml-6 mt-4 pl-4 border-l-2 border-base-300">
                       <div class="flex gap-3">
                         <div class="flex flex-col items-center gap-1 min-w-[30px]">
                           <button class="btn btn-ghost btn-xs btn-square">
@@ -290,6 +270,9 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </div>
             </div>
             
+    <!-- Campo de Novo Comentário -->
+            <.comment_form user={@user} form={@create_comment_form} post={@post} />
+            
     <!-- Botão Carregar Mais -->
             <button class="btn btn-outline btn-block">
               Carregar mais comentários (25 restantes)
@@ -331,69 +314,53 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               <button class="btn btn-primary btn-sm mt-2">Ver perfil</button>
             </div>
           </div>
-          
-    <!-- Card de Posts Relacionados -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <h2 class="card-title text-lg">Posts relacionados</h2>
-              <ul class="space-y-3 mt-2">
-                <li class="text-sm hover:text-primary cursor-pointer transition-colors">
-                  <div class="font-medium mb-1">Dicas para primeira entrevista técnica</div>
-                  <div class="flex items-center gap-2 text-xs opacity-60">
-                    <span>42 votos</span>
-                    <span>•</span>
-                    <span>18 comentários</span>
-                  </div>
-                </li>
-                <div class="divider my-2"></div>
-                <li class="text-sm hover:text-primary cursor-pointer transition-colors">
-                  <div class="font-medium mb-1">Minha jornada até o Google: timeline completo</div>
-                  <div class="flex items-center gap-2 text-xs opacity-60">
-                    <span>156 votos</span>
-                    <span>•</span>
-                    <span>67 comentários</span>
-                  </div>
-                </li>
-                <div class="divider my-2"></div>
-                <li class="text-sm hover:text-primary cursor-pointer transition-colors">
-                  <div class="font-medium mb-1">Lista de recursos para estudar algoritmos</div>
-                  <div class="flex items-center gap-2 text-xs opacity-60">
-                    <span>89 votos</span>
-                    <span>•</span>
-                    <span>34 comentários</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          
-    <!-- Card de Regras -->
-          <div class="card bg-base-100 shadow-md">
-            <div class="card-body">
-              <h2 class="card-title text-lg">Lembre-se</h2>
-              <ul class="space-y-2 text-sm opacity-80">
-                <li class="flex gap-2">
-                  <span>•</span>
-                  <span>Seja respeitoso nos comentários</span>
-                </li>
-                <li class="flex gap-2">
-                  <span>•</span>
-                  <span>Contribua com respostas úteis</span>
-                </li>
-                <li class="flex gap-2">
-                  <span>•</span>
-                  <span>Vote em conteúdo de qualidade</span>
-                </li>
-                <li class="flex gap-2">
-                  <span>•</span>
-                  <span>Reporte conteúdo inadequado</span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
     </Layouts.app>
     """
+  end
+
+  defp comment_form(assigns) do
+    ~H"""
+    <div class="card bg-base-100 shadow-md">
+      <div class="card-body">
+        <div class="flex gap-3">
+          <div class="flex-1">
+            <.form for={@form} phx-submit="create_comment">
+              <.input
+                type="textarea"
+                field={@form[:content]}
+                placeholder="Adicione um comentário..."
+                class="textarea textarea-bordered w-full"
+                rows="3"
+              />
+
+              <div :if={Social.can_create_comment?(@user)} class="flex justify-end gap-2 mt-2">
+                <.button class="btn btn-primary btn-sm">Comentar</.button>
+              </div>
+            </.form>
+          </div>
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  def handle_event("create_comment", %{"form" => comment_params}, socket) do
+    form = socket.assigns.create_comment_form
+    IO.inspect(socket)
+
+    case AshPhoenix.Form.submit(form,
+           params: comment_params
+         ) do
+      {:ok, _comment} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Comentário criado com sucesso!")
+         |> push_navigate(to: ~p"/forum/topics/#{socket.assigns.post.id}")}
+
+      {:error, form} ->
+        {:noreply, assign(socket, create_comment_form: form)}
+    end
   end
 end

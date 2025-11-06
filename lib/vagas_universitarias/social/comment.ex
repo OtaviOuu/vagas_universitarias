@@ -2,7 +2,9 @@ defmodule VagasUniversitarias.Social.Comment do
   use Ash.Resource,
     otp_app: :vagas_universitarias,
     domain: VagasUniversitarias.Social,
-    data_layer: AshPostgres.DataLayer
+    data_layer: AshPostgres.DataLayer,
+    extensions: [AshAuthentication, AshPhoenix],
+    authorizers: [Ash.Policy.Authorizer]
 
   postgres do
     table "comments"
@@ -10,8 +12,23 @@ defmodule VagasUniversitarias.Social.Comment do
   end
 
   actions do
-    default_accept [:content, :post_id, :author_id]
-    defaults [:read, :destroy, create: :*, update: :*]
+    default_accept [:content, :post_id]
+    defaults [:read]
+
+    create :create do
+      primary? true
+      change relate_actor(:author)
+    end
+  end
+
+  policies do
+    policy action_type(:create) do
+      authorize_if always()
+    end
+
+    policy action_type(:read) do
+      authorize_if always()
+    end
   end
 
   attributes do
