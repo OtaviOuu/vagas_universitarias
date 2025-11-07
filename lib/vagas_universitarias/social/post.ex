@@ -15,7 +15,11 @@ defmodule VagasUniversitarias.Social.Post do
 
   actions do
     default_accept [:title, :body]
-    defaults [:read, :destroy, update: :*]
+    defaults [:destroy, update: :*]
+
+    read :read do
+      prepare build(load: [:comments_count, :author, :comments])
+    end
 
     create :create do
       primary? true
@@ -57,5 +61,9 @@ defmodule VagasUniversitarias.Social.Post do
     end
 
     has_many :comments, VagasUniversitarias.Social.Comment
+  end
+
+  aggregates do
+    count :comments_count, :comments
   end
 end

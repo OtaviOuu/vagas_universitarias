@@ -1,10 +1,12 @@
 defmodule VagasUniversitariasWeb.PostsLive.Show do
   use VagasUniversitariasWeb, :live_view
 
+  on_mount {VagasUniversitariasWeb.LiveUserAuth, :live_user_required_with_profile}
+
   alias VagasUniversitarias.Social
 
   def mount(%{"id" => id}, _session, socket) do
-    post = Social.get_post!(id, load: [comments: [:author]])
+    post = Social.get_post!(id)
     user = socket.assigns.current_user
 
     create_comment_form =
@@ -20,16 +22,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
         <!-- Coluna Principal -->
         <div class="flex-1 space-y-4">
           <!-- Botão Voltar -->
-          <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/forum")}>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            Voltar para o fórum
+          <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/forum/topics")}>
+            <.icon name="hero-arrow-left" class="w-5 h-5 mr-2" /> Voltar para o fórum
           </button>
           
     <!-- Post Principal -->
@@ -65,14 +59,12 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 <div class="flex-1">
                   <!-- Header do Post -->
                   <div class="flex items-center gap-2 mb-3">
-                    <div class="avatar placeholder">
-                      <div class="bg-neutral text-neutral-content rounded-full w-10 h-10">
-                        <span class="text-sm">JS</span>
-                      </div>
+                    <div class="w-8 h-8">
+                      <.avatar avatar_url={@post.author.avatar_url} />
                     </div>
                     <div class="flex-1">
                       <div class="flex items-center gap-2">
-                        <span class="font-medium">joao_silva</span>
+                        <span class="font-medium">{@post.author.nick_name}</span>
                         <span class="text-xs opacity-60">• há 3 horas</span>
                       </div>
                       <div class="badge badge-primary badge-sm">Dúvida</div>
@@ -114,7 +106,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                           d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                         />
                       </svg>
-                      <span>28 comentários</span>
+                      <span>{@post.comments_count} comentários</span>
                     </button>
                     <button class="btn btn-ghost btn-sm gap-2">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,10 +191,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
     <!-- Conteúdo do Comentário -->
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
-                      <div class="avatar placeholder">
-                        <div class="bg-accent text-accent-content rounded-full w-8 h-8">
-                          <span class="text-xs">MS</span>
-                        </div>
+                      <div class="w-8 h-8">
+                        <.avatar avatar_url={@post.author.avatar_url} />
                       </div>
                       <span class="font-medium text-sm">{comment.author.nick_name}</span>
                       <div class="badge badge-success badge-xs">TOP</div>

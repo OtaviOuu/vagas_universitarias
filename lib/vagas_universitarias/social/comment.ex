@@ -13,7 +13,11 @@ defmodule VagasUniversitarias.Social.Comment do
 
   actions do
     default_accept [:content, :post_id]
-    defaults [:read]
+
+    read :read do
+      primary? true
+      prepare build(load: [:author])
+    end
 
     create :create do
       primary? true

@@ -5,7 +5,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
   alias VagasUniversitarias.Social
 
   def mount(_params, _session, socket) do
-    posts = Social.list_posts!(load: [:author])
+    posts = Social.list_posts!()
+    IO.inspect(posts, label: "Posts")
     {:ok, assign(socket, posts: posts)}
   end
 
@@ -63,7 +64,9 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
                         <.avatar avatar_url={post.author.avatar_url} />
                       </div>
                       <span class="text-sm font-medium">{post.author.nick_name}</span>
-                      <span class="text-xs opacity-60">• há 3 horas</span>
+                      <span class="text-xs opacity-60">
+                        • {post.inserted_at}
+                      </span>
                       <div class="badge badge-primary badge-sm">Dúvida</div>
                     </div>
 
@@ -76,10 +79,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
 
                     <div class="flex items-center gap-4 mt-3">
                       <button class="btn btn-ghost btn-xs gap-1">
-                        <.icon name="hero-chat-bubble-oval-left-ellipsis" /> 29 comentários
-                      </button>
-                      <button class="btn btn-ghost btn-xs gap-1">
-                        <.icon name="hero-share" /> 5 compartilhamentos
+                        <.icon name="hero-chat-bubble-oval-left-ellipsis" /> {post.comments_count} comentários
                       </button>
                       <button class="btn btn-ghost btn-xs gap-1">
                         <.icon name="hero-eye" /> 1.2k
