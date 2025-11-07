@@ -32,48 +32,38 @@ defmodule VagasUniversitariasWeb.Layouts do
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
 
+  attr :current_user, :map,
+    default: nil,
+    doc: "the currently authenticated user when available"
+
   slot :inner_block, required: true
 
   def app(assigns) do
     ~H"""
     <header class="navbar bg-base-100 shadow-sm">
-      <div class="navbar-start">
-        <ul class="menu menu-horizontal px-1 gap-2 text-sm font-medium">
-          <%= if @current_user do %>
-            <li>
-              <.link
-                :if={@current_user.role == :admin}
-                navigate={~p"/admin/home"}
-                class="btn btn-ghost normal-case text-sm ml-2"
-              >
-                Admin
-              </.link>
-            </li>
-          <% else %>
-            <.link navigate={~p"/sign-in"} class="btn btn-ghost normal-case text-sm ml-2">
-              Login
-            </.link>
-            <.link navigate={~p"/register"} class="btn btn-ghost normal-case text-sm ml-2">
-              Criar Conta
-            </.link>
-          <% end %>
-          <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm ml-2">
-            Empresas
-          </.link>
-          <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm ml-2">
-            Vagas
-          </.link>
-          <.link navigate={~p"/forum/topics"} class="btn btn-ghost normal-case text-sm ml-2">
-            Forum
-          </.link>
+      <div class="navbar-start gap-2">
+        <div class="dropdown lg:hidden">
+          <label tabindex="0" class="btn btn-ghost btn-circle" aria-label="Abrir menu">
+            <.icon name="hero-bars-3" class="size-5" />
+          </label>
+          <ul
+            tabindex="-1"
+            class="menu menu-sm dropdown-content mt-3 w-56 rounded-box border border-base-300 bg-base-100 p-2 text-sm font-medium shadow-lg"
+          >
+            <.nav_menu current_user={@current_user} />
+          </ul>
+        </div>
+
+        <ul class="menu menu-horizontal hidden gap-2 px-1 text-sm font-medium lg:flex">
+          <.nav_menu current_user={@current_user} />
         </ul>
       </div>
 
-      <div class="navbar-center">
-        <.link navigate={~p"/"} class="btn btn-ghost text-xl">Projetin</.link>
+      <div class="navbar-center flex-1 lg:flex-none">
+        <.link navigate={~p"/"} class="btn btn-ghost text-xl normal-case">Projetin</.link>
       </div>
 
-      <div class="navbar-end">
+      <div class="navbar-end gap-1">
         <button class="btn btn-ghost btn-circle">
           <.icon name="hero-magnifying-glass" class="size-5" />
         </button>
@@ -104,6 +94,46 @@ defmodule VagasUniversitariasWeb.Layouts do
     </main>
 
     <.flash_group flash={@flash} />
+    """
+  end
+
+  attr :current_user, :map, default: nil
+
+  defp nav_menu(assigns) do
+    ~H"""
+    <%= if @current_user do %>
+      <li :if={@current_user.role == :admin}>
+        <.link navigate={~p"/admin/home"} class="btn btn-ghost normal-case text-sm">
+          Admin
+        </.link>
+      </li>
+    <% else %>
+      <li>
+        <.link navigate={~p"/sign-in"} class="btn btn-ghost normal-case text-sm">
+          Login
+        </.link>
+      </li>
+      <li>
+        <.link navigate={~p"/register"} class="btn btn-ghost normal-case text-sm">
+          Criar Conta
+        </.link>
+      </li>
+    <% end %>
+    <li>
+      <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm">
+        Empresas
+      </.link>
+    </li>
+    <li>
+      <.link navigate={~p"/vagas"} class="btn btn-ghost normal-case text-sm">
+        Vagas
+      </.link>
+    </li>
+    <li>
+      <.link navigate={~p"/forum/topics"} class="btn btn-ghost normal-case text-sm">
+        Forum
+      </.link>
+    </li>
     """
   end
 
