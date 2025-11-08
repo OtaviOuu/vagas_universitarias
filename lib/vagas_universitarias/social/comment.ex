@@ -7,7 +7,6 @@ defmodule VagasUniversitarias.Social.Comment do
     authorizers: [Ash.Policy.Authorizer],
     notifiers: [Ash.Notifier.PubSub]
 
-
   postgres do
     table "comments"
     repo VagasUniversitarias.Repo
@@ -37,6 +36,13 @@ defmodule VagasUniversitarias.Social.Comment do
     end
   end
 
+  pub_sub do
+    module VagasUniversitariasWeb.Endpoint
+
+    prefix "comments"
+    publish :create, [:post_id]
+  end
+
   attributes do
     uuid_primary_key :id
 
@@ -46,14 +52,6 @@ defmodule VagasUniversitarias.Social.Comment do
 
     timestamps()
   end
-
-  pub_sub do
-    module VagasUniversitariasWeb.Endpoint
-
-    prefix "comments"
-    publish :create, [:post_id]
-  end
-
 
   relationships do
     belongs_to :post, VagasUniversitarias.Social.Post do
