@@ -9,6 +9,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
     if connected?(socket) do
       VagasUniversitariasWeb.Endpoint.subscribe("comments:#{id}")
     end
+
     post = Social.get_post!(id)
     user = socket.assigns.current_user
 
@@ -28,7 +29,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
           <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/forum/topics")}>
             <.icon name="hero-arrow-left" class="w-5 h-5 mr-2" /> Voltar para o fórum
           </button>
-
+          
     <!-- Post Principal -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
@@ -57,7 +58,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                     </svg>
                   </button>
                 </div>
-
+                
     <!-- Conteúdo -->
                 <div class="flex-1">
                   <!-- Header do Post -->
@@ -68,7 +69,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                     <div class="flex-1">
                       <div class="flex items-center gap-2">
                         <span class="font-medium">{@post.author.nick_name}</span>
-                        <span class="text-xs opacity-60">• há 3 horas</span>
+                        <span class="text-xs opacity-60">• {@post.inserted_at}</span>
                       </div>
                       <div class="badge badge-primary badge-sm">Dúvida</div>
                     </div>
@@ -85,19 +86,19 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       </button>
                     </div>
                   </div>
-
+                  
     <!-- Título -->
                   <h1 class="text-2xl font-bold mb-4">
                     {@post.title}
                   </h1>
-
+                  
     <!-- Conteúdo Completo -->
                   <div class="prose max-w-none">
                     <p class="opacity-80 leading-relaxed mb-4">
                       {@post.body}
                     </p>
                   </div>
-
+                  
     <!-- Ações -->
                   <div class="flex items-center gap-4 mt-6 pt-4 border-t border-base-300">
                     <button class="btn btn-ghost btn-sm gap-2">
@@ -149,17 +150,17 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </div>
             </div>
           </div>
-
+          
     <!-- Ordenação de Comentários -->
           <div class="flex items-center justify-between">
-            <span class="text-sm opacity-60">28 comentários</span>
+            <span class="text-sm opacity-60">{@post.comments_count} comentários</span>
             <div class="tabs tabs-boxed tabs-sm">
               <a class="tab tab-active">Mais votados</a>
               <a class="tab">Mais recentes</a>
               <a class="tab">Mais antigos</a>
             </div>
           </div>
-
+          
     <!-- Lista de Comentários -->
           <div class="space-y-4">
             <!-- Comentário 1 -->
@@ -190,7 +191,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       </svg>
                     </button>
                   </div>
-
+                  
     <!-- Conteúdo do Comentário -->
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
@@ -209,7 +210,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       <button class="btn btn-ghost btn-xs">Compartilhar</button>
                       <button class="btn btn-ghost btn-xs">Reportar</button>
                     </div>
-
+                    
     <!-- Resposta aninhada -->
                     <div :if={false} class="ml-6 mt-4 pl-4 border-l-2 border-base-300">
                       <div class="flex gap-3">
@@ -243,7 +244,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                                 <span class="text-xs">JS</span>
                               </div>
                             </div>
-                            <span class="font-medium text-sm">joao_silva</span>
+                            <span class="font-medium text-sm">{@post.author.nick_name}</span>
                             <div class="badge badge-primary badge-xs">OP</div>
                             <span class="text-xs opacity-60">• há 1 hora</span>
                           </div>
@@ -262,17 +263,17 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 </div>
               </div>
             </div>
-
+            
     <!-- Campo de Novo Comentário -->
             <.comment_form user={@user} form={@create_comment_form} post={@post} />
-
+            
     <!-- Botão Carregar Mais -->
             <button class="btn btn-outline btn-block">
               Carregar mais comentários (25 restantes)
             </button>
           </div>
         </div>
-
+        
     <!-- Coluna Lateral -->
         <div class="w-80 space-y-4">
           <!-- Card do Autor -->
@@ -286,8 +287,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                   </div>
                 </div>
                 <div class="flex-1">
-                  <div class="font-medium">joao_silva</div>
-                  <div class="text-xs opacity-60">Membro há 6 meses</div>
+                  <div class="font-medium">{@post.author.nick_name}</div>
+                  <div class="text-xs opacity-60">Membro há {@post.author.inserted_at}</div>
                 </div>
               </div>
               <div class="stats stats-vertical mt-3">
@@ -341,10 +342,11 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
   # lixo
   def handle_info(%{topic: "comments:" <> id} = algo, socket) do
-    {:noreply, update(socket, :post, fn post ->
-      Social.get_post!(id)
-    end)}
-end
+    {:noreply,
+     update(socket, :post, fn post ->
+       Social.get_post!(id)
+     end)}
+  end
 
   def handle_event("create_comment", %{"form" => comment_params}, socket) do
     form = socket.assigns.create_comment_form
