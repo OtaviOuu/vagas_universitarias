@@ -4,7 +4,9 @@ defmodule VagasUniversitarias.Social.Comment do
     domain: VagasUniversitarias.Social,
     data_layer: AshPostgres.DataLayer,
     extensions: [AshAuthentication, AshPhoenix],
-    authorizers: [Ash.Policy.Authorizer]
+    authorizers: [Ash.Policy.Authorizer],
+    notifiers: [Ash.Notifier.PubSub]
+
 
   postgres do
     table "comments"
@@ -44,6 +46,14 @@ defmodule VagasUniversitarias.Social.Comment do
 
     timestamps()
   end
+
+  pub_sub do
+    module VagasUniversitariasWeb.Endpoint
+
+    prefix "comments"
+    publish :create, [:post_id]
+  end
+
 
   relationships do
     belongs_to :post, VagasUniversitarias.Social.Post do
