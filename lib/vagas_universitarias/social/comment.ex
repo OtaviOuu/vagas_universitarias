@@ -3,7 +3,7 @@ defmodule VagasUniversitarias.Social.Comment do
     otp_app: :vagas_universitarias,
     domain: VagasUniversitarias.Social,
     data_layer: AshPostgres.DataLayer,
-    extensions: [AshAuthentication, AshPhoenix],
+    extensions: [AshAuthentication, AshPhoenix, AshArchival.Resource],
     authorizers: [Ash.Policy.Authorizer],
     notifiers: [Ash.Notifier.PubSub]
 
@@ -13,11 +13,11 @@ defmodule VagasUniversitarias.Social.Comment do
   end
 
   actions do
-    default_accept [:content, :post_id]
+    defaults [:destroy]
+    default_accept [:content, :post_id, :author_id]
 
     read :read do
       primary? true
-      prepare build(load: [:author])
     end
 
     create :create do
@@ -34,6 +34,10 @@ defmodule VagasUniversitarias.Social.Comment do
     policy action_type(:read) do
       authorize_if always()
     end
+
+    policy action_type(:destroy) do
+      authorize_if relates_to_actor_via(:author)
+    end
   end
 
   pub_sub do
@@ -41,6 +45,10 @@ defmodule VagasUniversitarias.Social.Comment do
 
     prefix "comments"
     publish :create, [:post_id]
+  end
+
+  preparations do
+    prepare build(load: [:author])
   end
 
   attributes do

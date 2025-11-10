@@ -9,7 +9,8 @@
     :reactor,
     :ecto,
     :ecto_sql,
-    :phoenix
+    :phoenix,
+    :ash_archival
   ],
   subdirectories: ["priv/*/migrations"],
   plugins: [Spark.Formatter, Phoenix.LiveView.HTMLFormatter],

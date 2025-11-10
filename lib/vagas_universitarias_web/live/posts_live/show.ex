@@ -200,7 +200,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       </div>
                       <span class="font-medium text-sm">{comment.author.nick_name}</span>
                       <div class="badge badge-success badge-xs">TOP</div>
-                      <span class="text-xs opacity-60">• há 2 horas</span>
+                      <span class="text-xs opacity-60">• {comment.inserted_at}</span>
                     </div>
                     <p class="text-sm opacity-80 leading-relaxed mb-3">
                       {comment.content}
@@ -208,7 +208,16 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                     <div class="flex items-center gap-3">
                       <button class="btn btn-ghost btn-xs">Responder</button>
                       <button class="btn btn-ghost btn-xs">Compartilhar</button>
-                      <button class="btn btn-ghost btn-xs">Reportar</button>
+                      <.button
+                        :if={Social.can_delete_comment?(@user.user_profile, comment)}
+                        phx-click="delete_comment"
+                        phx-disable-with="Deletando..."
+                        data-confirm="Tem certeza que deseja deletar este comentário?"
+                        phx-value-comment-id={comment.id}
+                        class="btn btn-ghost btn-xs text-error"
+                      >
+                        Deletar
+                      </.button>
                     </div>
                     
     <!-- Resposta aninhada -->
@@ -239,11 +248,6 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                         </div>
                         <div class="flex-1">
                           <div class="flex items-center gap-2 mb-2">
-                            <div class="avatar placeholder">
-                              <div class="bg-neutral text-neutral-content rounded-full w-6 h-6">
-                                <span class="text-xs">JS</span>
-                              </div>
-                            </div>
                             <span class="font-medium text-sm">{@post.author.nick_name}</span>
                             <div class="badge badge-primary badge-xs">OP</div>
                             <span class="text-xs opacity-60">• há 1 hora</span>
@@ -280,12 +284,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
               <h2 class="card-title text-lg">Sobre o autor</h2>
-              <div class="flex items-center gap-3">
-                <div class="avatar placeholder">
-                  <div class="bg-neutral text-neutral-content rounded-full w-12 h-12">
-                    <span>JS</span>
-                  </div>
-                </div>
+              <div class="flex items-center gap-3 ">
+                <.avatar avatar_url={@post.author.avatar_url} />
                 <div class="flex-1">
                   <div class="font-medium">{@post.author.nick_name}</div>
                   <div class="text-xs opacity-60">Membro há {@post.author.inserted_at}</div>
@@ -362,6 +362,23 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
       {:error, form} ->
         {:noreply, assign(socket, create_comment_form: form)}
+    end
+  end
+
+  def handle_event("delete_comment", %{"comment-id" => comment_id}, socket) do
+    comment = socket.assigns.post.comments |> Enum.find(&(&1.id == comment_id))
+
+    case Social.delete_comment(comment, actor: socket.assigns.user.user_profile) do
+      {:ok, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Comentário deletado com sucesso!")
+         |> push_navigate(to: ~p"/forum/topics/#{socket.assigns.post.id}")}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Não foi possível deletar o comentário.")}
     end
   end
 end
