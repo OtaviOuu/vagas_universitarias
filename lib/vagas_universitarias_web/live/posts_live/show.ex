@@ -36,7 +36,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               <div class="flex gap-4">
                 <!-- Votação -->
                 <div class="flex flex-col items-center gap-2 min-w-[50px]">
-                  <button class="btn btn-ghost btn-sm btn-square hover:text-primary">
+                  <button phx-click="like" class="btn btn-ghost btn-sm btn-square hover:text-primary">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         stroke-linecap="round"
@@ -46,8 +46,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       />
                     </svg>
                   </button>
-                  <span class="font-bold text-2xl">142</span>
-                  <button class="btn btn-ghost btn-sm btn-square hover:text-error">
+                  <span class="font-bold text-2xl">{@post.likes}</span>
+                  <button phx-click="dislike" class="btn btn-ghost btn-sm btn-square hover:text-error">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         stroke-linecap="round"
@@ -379,6 +379,35 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
         {:noreply,
          socket
          |> put_flash(:error, "Não foi possível deletar o comentário.")}
+    end
+  end
+
+  def handle_event("like", _params, socket) do
+    post = socket.assigns.post
+    actor = socket.assigns.user.user_profile
+
+    case Social.like_post(post, actor: actor) do
+      {:ok, updated_post} ->
+        IO.inspect(updated_post)
+        {:noreply, assign(socket, post: updated_post)}
+
+      {:error, reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Não foi possível curtir o post: #{inspect(reason)}")}
+    end
+  end
+
+  def handle_event("dislike", _params, socket) do
+    post = socket.assigns.post
+    actor = socket.assigns.user.user_profile
+
+    case Social.dislike_post(post, actor: actor) do
+      {:ok, updated_post} ->
+        {:noreply, assign(socket, post: updated_post)}
+
+      {:error, reason} ->
+        {:noreply, socket}
     end
   end
 end

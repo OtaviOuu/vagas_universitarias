@@ -12,6 +12,8 @@ defmodule VagasUniversitarias.Social do
       define :create_post, action: :create
       define :list_posts, action: :read
       define :get_post, action: :read, get_by: :id
+      define :like_post, action: :like
+      define :dislike_post, action: :dislike
     end
 
     resource VagasUniversitarias.Social.Comment do

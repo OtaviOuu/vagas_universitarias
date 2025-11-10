@@ -18,6 +18,7 @@ defmodule VagasUniversitarias.Social.Post do
     defaults [:destroy, update: :*]
 
     read :read do
+      primary? true
       prepare build(load: [:comments_count, :author, :comments])
     end
 
@@ -31,6 +32,16 @@ defmodule VagasUniversitarias.Social.Post do
           Profiles.consume_daily_post_quota(result.author, actor: ctx.actor)
         end)
       end
+    end
+
+    update :like do
+      accept [:likes]
+      change atomic_update(:likes, expr(likes + 1))
+    end
+
+    update :dislike do
+      accept [:likes]
+      change atomic_update(:likes, expr(likes - 1))
     end
   end
 
@@ -50,6 +61,11 @@ defmodule VagasUniversitarias.Social.Post do
 
     attribute :body, :string do
       allow_nil? false
+    end
+
+    attribute :likes, :integer do
+      constraints min: 0
+      default 0
     end
 
     timestamps()
