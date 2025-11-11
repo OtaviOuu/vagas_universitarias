@@ -21,6 +21,7 @@ defmodule VagasUniversitarias.Social do
     resource VagasUniversitarias.Social.Comment do
       define :create_comment, action: :create
       define :delete_comment, action: :destroy
+      define :like_comment, action: :like
     end
   end
 end

@@ -6,12 +6,11 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
   alias VagasUniversitarias.Social
 
   def mount(%{"id" => post_id}, _session, socket) do
-    socket =
-      socket
-      |> assign_post(post_id)
-      |> connect_to_comments_channel
-      |> assign_create_comment_form
-      |> ok()
+    socket
+    |> assign_post(post_id)
+    |> connect_to_comments_channel
+    |> assign_create_comment_form
+    |> ok()
   end
 
   def render(assigns) do
@@ -178,7 +177,11 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 <div class="flex gap-4">
                   <!-- Votação -->
                   <div class="flex flex-col items-center gap-1 min-w-[40px]">
-                    <button class="btn btn-ghost btn-xs btn-square">
+                    <.button
+                      phx-click="like_comment"
+                      phx-value-comment-id={comment.id}
+                      class="btn btn-ghost btn-xs btn-square"
+                    >
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           stroke-linecap="round"
@@ -187,8 +190,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                           d="M5 15l7-7 7 7"
                         />
                       </svg>
-                    </button>
-                    <span class="font-bold text-sm">45</span>
+                    </.button>
+                    <span class="font-bold text-sm">{comment.likes}</span>
                     <button class="btn btn-ghost btn-xs btn-square">
                       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
@@ -354,7 +357,6 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
     assign(socket, :post, post)
   end
 
-
   def connect_to_comments_channel(socket) do
     post = socket.assigns.post
     user = socket.assigns.current_user
@@ -431,6 +433,23 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
         {:noreply,
          socket
          |> put_flash(:error, "Não foi possível curtir o post: #{inspect(reason)}")}
+    end
+  end
+
+  # lixo
+  def handle_event("like_comment", %{"comment-id" => comment_id}, socket) do
+    actor = socket.assigns.current_user.user_profile
+
+    case Social.like_comment(comment_id, actor: actor) do
+      {:ok, _updated_comment} ->
+        {:noreply,
+         socket
+         |> push_navigate(to: ~p"/forum/topics/#{socket.assigns.post.id}")}
+
+      {:error, reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Não foi possível curtir o comentário: #{inspect(reason)}")}
     end
   end
 

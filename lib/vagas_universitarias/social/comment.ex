@@ -16,6 +16,11 @@ defmodule VagasUniversitarias.Social.Comment do
     defaults [:destroy]
     default_accept [:content, :post_id, :author_id]
 
+    update :like do
+      accept [:likes]
+      change atomic_update(:likes, expr(likes + 1))
+    end
+
     read :read do
       primary? true
     end
@@ -38,6 +43,10 @@ defmodule VagasUniversitarias.Social.Comment do
     policy action_type(:destroy) do
       authorize_if relates_to_actor_via(:author)
     end
+
+    policy action_type(:update) do
+      authorize_if actor_present()
+    end
   end
 
   pub_sub do
@@ -56,6 +65,11 @@ defmodule VagasUniversitarias.Social.Comment do
 
     attribute :content, :string do
       allow_nil? false
+    end
+
+    attribute :likes, :integer do
+      default 0
+      constraints min: 0
     end
 
     timestamps()
