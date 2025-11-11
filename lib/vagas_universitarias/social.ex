@@ -23,5 +23,13 @@ defmodule VagasUniversitarias.Social do
       define :delete_comment, action: :destroy
       define :like_comment, action: :like
     end
+
+    resource VagasUniversitarias.Social.Notifications
+
+    resource VagasUniversitarias.Social.ProfileNotifications do
+      define :list_notifications_by_user,
+        action: :list_notifications_by_user,
+        args: [:user_profile_id]
+    end
   end
 end

@@ -58,6 +58,9 @@ defmodule VagasUniversitarias.Profiles.UserProfile do
 
   relationships do
     belongs_to :user, VagasUniversitarias.Accounts.User, allow_nil?: false, public?: true
+
+    many_to_many :notifications, VagasUniversitarias.Social.Notifications,
+      through: VagasUniversitarias.Social.ProfileNotifications
   end
 
   identities do

@@ -64,15 +64,17 @@ defmodule VagasUniversitariasWeb.Layouts do
       </div>
 
       <div class="navbar-end gap-1">
+            <li class="ml-2">
+        <.live_component
+          module={VagasUniversitariasWeb.ComponentsLive.NotificationsModal}
+          id={"notifications-#{System.unique_integer([:positive])}"}
+          current_user={@current_user}
+        />
+      </li>
         <button class="btn btn-ghost btn-circle">
           <.icon name="hero-magnifying-glass" class="size-5" />
         </button>
-        <button class="btn btn-ghost btn-circle">
-          <div class="indicator">
-            <.icon name="hero-bell" class="size-5" />
-            <span class="badge badge-xs badge-primary indicator-item"></span>
-          </div>
-        </button>
+
         <.button
           :if={@current_user}
           class="btn btn-ghost btn-circle"
@@ -119,6 +121,7 @@ defmodule VagasUniversitariasWeb.Layouts do
         </.link>
       </li>
     <% end %>
+
     <li>
       <.link navigate={~p"/empresas"} class="btn btn-ghost normal-case text-sm">
         Empresas
