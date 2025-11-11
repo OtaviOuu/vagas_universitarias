@@ -9,8 +9,8 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
     socket =
       socket
       |> assign_post(post_id)
-      |> connect_to_comments_channel(post_id)
-      |> assign_create_comment_form(post_id)
+      |> connect_to_comments_channel
+      |> assign_create_comment_form
       |> ok()
   end
 
@@ -355,22 +355,23 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
   end
 
 
-  def connect_to_comments_channel(socket, id) do
+  def connect_to_comments_channel(socket) do
     post = socket.assigns.post
     user = socket.assigns.current_user
 
     if connected?(socket) do
-      VagasUniversitariasWeb.Endpoint.subscribe("comments:#{id}")
+      VagasUniversitariasWeb.Endpoint.subscribe("comments:#{post.id}")
       Social.view_post(post, actor: user.user_profile)
     end
 
     socket
   end
 
-  def assign_create_comment_form(socket, id) do
+  def assign_create_comment_form(socket) do
     user = socket.assigns.current_user
 
-    form = Social.form_to_create_comment(id, actor: user.user_profile) |> to_form
+    post_id = socket.assigns.post.id
+    form = Social.form_to_create_comment(post_id, actor: user.user_profile) |> to_form
 
     assign(socket, :create_comment_form, form)
   end
