@@ -5,18 +5,13 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
   alias VagasUniversitarias.Social
 
-  def mount(%{"id" => id}, _session, socket) do
-    if connected?(socket) do
-      VagasUniversitariasWeb.Endpoint.subscribe("comments:#{id}")
-    end
-
-    post = Social.get_post!(id)
-    user = socket.assigns.current_user
-
-    create_comment_form =
-      Social.form_to_create_comment(id, actor: user.user_profile) |> to_form
-
-    {:ok, assign(socket, post: post, user: user, create_comment_form: create_comment_form)}
+  def mount(%{"id" => post_id}, _session, socket) do
+    socket =
+      socket
+      |> assign_post(post_id)
+      |> connect_to_comments_channel(post_id)
+      |> assign_create_comment_form(post_id)
+      |> ok()
   end
 
   def render(assigns) do
@@ -29,7 +24,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
           <button class="btn btn-ghost btn-sm" phx-click={JS.navigate(~p"/forum/topics")}>
             <.icon name="hero-arrow-left" class="w-5 h-5 mr-2" /> Voltar para o fórum
           </button>
-          
+
     <!-- Post Principal -->
           <div class="card bg-base-100 shadow-md">
             <div class="card-body">
@@ -58,7 +53,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                     </svg>
                   </button>
                 </div>
-                
+
     <!-- Conteúdo -->
                 <div class="flex-1">
                   <!-- Header do Post -->
@@ -90,7 +85,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                         class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40"
                       >
                         <li
-                          :if={Social.can_delete_post?(@user.user_profile, @post)}
+                          :if={Social.can_delete_post?(@current_user.user_profile, @post)}
                           phx-click="delete_post"
                           data-confirm="Tem certeza que deseja deletar este comentário?"
                           phx-disable-with="Excluindo..."
@@ -100,19 +95,19 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       </ul>
                     </div>
                   </div>
-                  
+
     <!-- Título -->
                   <h1 class="text-2xl font-bold mb-4">
                     {@post.title}
                   </h1>
-                  
+
     <!-- Conteúdo Completo -->
                   <div class="prose max-w-none">
                     <p class="opacity-80 leading-relaxed mb-4">
                       {@post.body}
                     </p>
                   </div>
-                  
+
     <!-- Ações -->
                   <div class="flex items-center gap-4 mt-6 pt-4 border-t border-base-300">
                     <button class="btn btn-ghost btn-sm gap-2">
@@ -164,7 +159,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               </div>
             </div>
           </div>
-          
+
     <!-- Ordenação de Comentários -->
           <div class="flex items-center justify-between">
             <span class="text-sm opacity-60">{@post.comments_count} comentários</span>
@@ -174,7 +169,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
               <a class="tab">Mais antigos</a>
             </div>
           </div>
-          
+
     <!-- Lista de Comentários -->
           <div class="space-y-4">
             <!-- Comentário 1 -->
@@ -205,7 +200,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       </svg>
                     </button>
                   </div>
-                  
+
     <!-- Conteúdo do Comentário -->
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
@@ -223,7 +218,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       <button class="btn btn-ghost btn-xs">Responder</button>
                       <button class="btn btn-ghost btn-xs">Compartilhar</button>
                       <.button
-                        :if={Social.can_delete_comment?(@user.user_profile, comment)}
+                        :if={Social.can_delete_comment?(@current_user.user_profile, comment)}
                         phx-click="delete_comment"
                         phx-disable-with="Deletando..."
                         data-confirm="Tem certeza que deseja deletar este comentário?"
@@ -233,7 +228,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                         Deletar
                       </.button>
                     </div>
-                    
+
     <!-- Resposta aninhada -->
                     <div :if={false} class="ml-6 mt-4 pl-4 border-l-2 border-base-300">
                       <div class="flex gap-3">
@@ -281,17 +276,17 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 </div>
               </div>
             </div>
-            
+
     <!-- Campo de Novo Comentário -->
-            <.comment_form user={@user} form={@create_comment_form} post={@post} />
-            
+            <.comment_form current_user={@current_user} form={@create_comment_form} post={@post} />
+
     <!-- Botão Carregar Mais -->
             <button class="btn btn-outline btn-block">
               Carregar mais comentários (25 restantes)
             </button>
           </div>
         </div>
-        
+
     <!-- Coluna Lateral -->
         <div class="w-80 space-y-4">
           <!-- Card do Autor -->
@@ -343,7 +338,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                 rows="3"
               />
 
-              <div :if={Social.can_create_comment?(@user)} class="flex justify-end gap-2 mt-2">
+              <div :if={Social.can_create_comment?(@current_user)} class="flex justify-end gap-2 mt-2">
                 <.button class="btn btn-primary btn-sm">Comentar</.button>
               </div>
             </.form>
@@ -352,6 +347,32 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
       </div>
     </div>
     """
+  end
+
+  def assign_post(socket, id) do
+    post = Social.get_post!(id)
+    assign(socket, :post, post)
+  end
+
+
+  def connect_to_comments_channel(socket, id) do
+    post = socket.assigns.post
+    user = socket.assigns.current_user
+
+    if connected?(socket) do
+      VagasUniversitariasWeb.Endpoint.subscribe("comments:#{id}")
+      Social.view_post(post, actor: user.user_profile)
+    end
+
+    socket
+  end
+
+  def assign_create_comment_form(socket, id) do
+    user = socket.assigns.current_user
+
+    form = Social.form_to_create_comment(id, actor: user.user_profile) |> to_form
+
+    assign(socket, :create_comment_form, form)
   end
 
   # lixo
@@ -382,7 +403,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
   def handle_event("delete_comment", %{"comment-id" => comment_id}, socket) do
     comment = socket.assigns.post.comments |> Enum.find(&(&1.id == comment_id))
 
-    case Social.delete_comment(comment, actor: socket.assigns.user.user_profile) do
+    case Social.delete_comment(comment, actor: socket.assigns.current_user.user_profile) do
       {:ok, _} ->
         {:noreply,
          socket
@@ -398,7 +419,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
   def handle_event("like", _params, socket) do
     post = socket.assigns.post
-    actor = socket.assigns.user.user_profile
+    actor = socket.assigns.current_user.user_profile
 
     case Social.like_post(post, actor: actor) do
       {:ok, updated_post} ->
@@ -414,7 +435,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
   def handle_event("dislike", _params, socket) do
     post = socket.assigns.post
-    actor = socket.assigns.user.user_profile
+    actor = socket.assigns.current_user.user_profile
 
     case Social.dislike_post(post, actor: actor) do
       {:ok, updated_post} ->
@@ -427,7 +448,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
   def handle_event("delete_post", _params, socket) do
     post = socket.assigns.post
-    actor = socket.assigns.user.user_profile
+    actor = socket.assigns.current_user.user_profile
 
     case Social.delete_post(post, actor: actor) do
       {:ok, _} ->

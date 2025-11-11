@@ -7,6 +7,7 @@ defmodule VagasUniversitarias.Social.Post do
     extensions: [AshJsonApi.Resource, AshAuthentication, AshArchival.Resource]
 
   alias VagasUniversitarias.Profiles
+  alias VagasUniversitarias.Social
 
   postgres do
     table "posts"
@@ -43,6 +44,11 @@ defmodule VagasUniversitarias.Social.Post do
       accept [:likes]
       change atomic_update(:likes, expr(likes - 1))
     end
+
+    update :view do
+      accept [:views]
+      change atomic_update(:views, expr(views + 1))
+    end
   end
 
   policies do
@@ -68,6 +74,11 @@ defmodule VagasUniversitarias.Social.Post do
     end
 
     attribute :likes, :integer do
+      constraints min: 0
+      default 0
+    end
+
+    attribute :views, :integer do
       constraints min: 0
       default 0
     end

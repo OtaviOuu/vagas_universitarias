@@ -53,6 +53,7 @@ defmodule VagasUniversitariasWeb do
       use Phoenix.LiveView
 
       unquote(html_helpers())
+      def ok(socket), do: {:ok, socket}
     end
   end
 

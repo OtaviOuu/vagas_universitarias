@@ -34,30 +34,6 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
             <div class="card bg-base-100 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
               <div class="card-body p-4">
                 <div class="flex gap-4">
-                  <div class="flex flex-col items-center gap-1 min-w-[40px]">
-                    <button class="btn btn-ghost btn-xs btn-square">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        />
-                      </svg>
-                    </button>
-                    <span class="font-bold text-lg">142</span>
-                    <button class="btn btn-ghost btn-xs btn-square">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-
                   <div class="flex-1">
                     <div class="flex items-center gap-2 mb-2">
                       <div class="w-8 h-8">
@@ -79,10 +55,13 @@ defmodule VagasUniversitariasWeb.PostsLive.Index do
 
                     <div class="flex items-center gap-4 mt-3">
                       <button class="btn btn-ghost btn-xs gap-1">
-                        <.icon name="hero-chat-bubble-oval-left-ellipsis" /> {post.comments_count} comentários
+                        <.icon name="hero-chat-bubble-oval-left-ellipsis" /> {post.comments_count}
                       </button>
                       <button class="btn btn-ghost btn-xs gap-1">
-                        <.icon name="hero-eye" /> 1.2k
+                        <.icon name="hero-heart" /> {post.likes}
+                      </button>
+                        <button class="btn btn-ghost btn-xs gap-1">
+                        <.icon name="hero-eye" /> {post.views}
                       </button>
                     </div>
                   </div>

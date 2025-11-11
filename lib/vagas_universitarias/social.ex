@@ -15,6 +15,7 @@ defmodule VagasUniversitarias.Social do
       define :like_post, action: :like
       define :dislike_post, action: :dislike
       define :delete_post, action: :destroy
+      define :view_post, action: :view
     end
 
     resource VagasUniversitarias.Social.Comment do
