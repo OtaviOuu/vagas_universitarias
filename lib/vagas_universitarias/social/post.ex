@@ -4,7 +4,7 @@ defmodule VagasUniversitarias.Social.Post do
     domain: VagasUniversitarias.Social,
     data_layer: AshPostgres.DataLayer,
     authorizers: [Ash.Policy.Authorizer],
-    extensions: [AshJsonApi.Resource, AshAuthentication]
+    extensions: [AshJsonApi.Resource, AshAuthentication, AshArchival.Resource]
 
   alias VagasUniversitarias.Profiles
 
@@ -46,6 +46,10 @@ defmodule VagasUniversitarias.Social.Post do
   end
 
   policies do
+    policy action_type(:destroy) do
+      authorize_if relates_to_actor_via(:author)
+    end
+
     policy always() do
       authorize_if always()
     end

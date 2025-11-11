@@ -74,7 +74,7 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                       <div class="badge badge-primary badge-sm">Dúvida</div>
                     </div>
                     <div class="dropdown dropdown-end">
-                      <button class="btn btn-ghost btn-sm btn-square">
+                      <button tabindex="0" class="btn btn-ghost btn-sm btn-square">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             stroke-linecap="round"
@@ -84,6 +84,20 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
                           />
                         </svg>
                       </button>
+
+                      <ul
+                        tabindex="0"
+                        class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40"
+                      >
+                        <li
+                          :if={Social.can_delete_post?(@user.user_profile, @post)}
+                          phx-click="delete_post"
+                          data-confirm="Tem certeza que deseja deletar este comentário?"
+                          phx-disable-with="Excluindo..."
+                        >
+                          excluir
+                        </li>
+                      </ul>
                     </div>
                   </div>
                   
@@ -408,6 +422,24 @@ defmodule VagasUniversitariasWeb.PostsLive.Show do
 
       {:error, reason} ->
         {:noreply, socket}
+    end
+  end
+
+  def handle_event("delete_post", _params, socket) do
+    post = socket.assigns.post
+    actor = socket.assigns.user.user_profile
+
+    case Social.delete_post(post, actor: actor) do
+      {:ok, _} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Post deletado com sucesso!")
+         |> push_navigate(to: ~p"/forum/topics")}
+
+      {:error, _reason} ->
+        {:noreply,
+         socket
+         |> put_flash(:error, "Não foi possível deletar o post.")}
     end
   end
 end
