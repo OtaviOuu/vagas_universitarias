@@ -44,11 +44,15 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Index do
               <div class="stats stats-vertical ">
                 <div class="stat p-3">
                   <div class="stat-title text-xs">Empresas Cadastradas</div>
-                  <div class="stat-value text-2xl">34</div>
+                  <div :if={@empresas.ok?} class="stat-value text-2xl">
+                    {@total_empresas.result}
+                  </div>
                 </div>
                 <div class="stat p-3">
                   <div class="stat-title text-xs">Total de Vagas</div>
-                  <div class="stat-value text-2xl text-primary">1.2k</div>
+                  <div :if={@empresas.ok?} class="stat-value text-2xl text-primary">
+                    {@total_vagas.result}
+                  </div>
                 </div>
               </div>
             </div>
@@ -109,11 +113,22 @@ defmodule VagasUniversitariasWeb.EmpresasLive.Index do
   end
 
   defp load_empresas(socket) do
-    assign_async(socket, :empresas, fn ->
+    assign_async(socket, [:empresas, :total_vagas, :total_empresas], fn ->
+      empresas = Vagas.list_empresas!(load: [:vagas, :count_vagas])
+
+      total_vagas =
+        empresas
+        |> Enum.map(& &1.count_vagas)
+        |> Enum.sum()
+
+
+      total_empresas = length(empresas)
       {:ok,
        %{
-         empresas: Vagas.list_empresas!(load: [:vagas, :count_vagas])
-       }}
+           empresas: empresas,
+           total_vagas: total_vagas,
+           total_empresas: total_empresas
+         }}
     end)
   end
 end
