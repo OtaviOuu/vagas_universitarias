@@ -9,3 +9,5 @@ MIX_ENV=prod mix assets.deploy
 
 MIX_ENV=prod mix phx.gen.release
 MIX_ENV=prod mix release --overwrite
+
+_build/prod/rel/vagas_universitarias/bin/vagas_universitarias eval "Release.migrate"
