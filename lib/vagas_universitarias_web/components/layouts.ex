@@ -62,15 +62,7 @@ defmodule VagasUniversitariasWeb.Layouts do
       <div class="navbar-center flex-1 lg:flex-none">
         <.link navigate={~p"/"} class="btn btn-ghost text-xl normal-case">Projetin</.link>
       </div>
-
       <div class="navbar-end gap-1">
-            <li class="ml-2">
-        <.live_component
-          module={VagasUniversitariasWeb.ComponentsLive.NotificationsModal}
-          id={"notifications-#{System.unique_integer([:positive])}"}
-          current_user={@current_user}
-        />
-      </li>
         <button class="btn btn-ghost btn-circle">
           <.icon name="hero-magnifying-glass" class="size-5" />
         </button>
