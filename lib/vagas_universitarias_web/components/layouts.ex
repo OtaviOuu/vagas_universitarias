@@ -60,7 +60,7 @@ defmodule VagasUniversitariasWeb.Layouts do
       </div>
 
       <div class="navbar-center flex-1 lg:flex-none">
-        <.link navigate={~p"/"} class="btn btn-ghost text-xl normal-case">Projetin</.link>
+        <.link navigate={~p"/"} class="btn btn-ghost text-xl normal-case">Projetin POC</.link>
       </div>
       <div class="navbar-end gap-1">
         <button class="btn btn-ghost btn-circle">
@@ -199,7 +199,7 @@ defmodule VagasUniversitariasWeb.Layouts do
         <aside class="bg-base-100 w-64 min-h-screen shadow-xl">
           <div class="p-4 border-b border-base-300">
             <.link navigate={~p"/"} class="flex items-center gap-2">
-              <span class="text-2xl font-bold">Projetin</span>
+              <span class="text-2xl font-bold">Projetin POC</span>
               <span class="badge badge-sm badge-primary">Admin</span>
             </.link>
           </div>
