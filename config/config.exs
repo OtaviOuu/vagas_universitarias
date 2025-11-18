@@ -92,7 +92,7 @@ config :vagas_universitarias, VagasUniversitariasWeb.Endpoint,
 config :vagas_universitarias, VagasUniversitarias.Mailer,
   adapter: Swoosh.Adapters.Sendgrid,
   api_key: System.get_env("SENDGRID_API_KEY")
-  compress: true # default false
+
 
 
 
