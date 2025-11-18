@@ -62,6 +62,8 @@ config :vagas_universitarias,
   ecto_repos: [VagasUniversitarias.Repo],
   generators: [timestamp_type: :utc_datetime],
   ash_domains: [
+    VagasUniversitarias.Scraper.Ufmg,
+    VagasUniversitarias.Scraper.Usp,
     VagasUniversitarias.Social,
     VagasUniversitarias.Profiles,
     VagasUniversitarias.Vagas,
@@ -86,7 +88,13 @@ config :vagas_universitarias, VagasUniversitariasWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :vagas_universitarias, VagasUniversitarias.Mailer, adapter: Swoosh.Adapters.Local
+#config :vagas_universitarias, VagasUniversitarias.Mailer, adapter: Swoosh.Adapters.Local
+config :vagas_universitarias, VagasUniversitarias.Mailer,
+  adapter: Swoosh.Adapters.Sendgrid,
+  api_key: System.get_env("SENDGRID_API_KEY")
+  compress: true # default false
+
+
 
 # Configure esbuild (the version is required)
 config :esbuild,
