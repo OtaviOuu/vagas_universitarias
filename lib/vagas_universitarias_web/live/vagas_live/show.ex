@@ -47,7 +47,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
                     <div class="badge badge-outline">São Paulo - SP</div>
                   </div>
                 </div>
-                <div class="flex items-center gap-1 text-sm opacity-80" phx-click="like">
+                <div :if={false} class="flex items-center gap-1 text-sm opacity-80" phx-click="like">
                   10 Likes
                   <.icon name="hero-heart hover:text-red-500 hover:scale-125 hover:transition-transform cursor-pointer" />
                 </div>
@@ -74,7 +74,7 @@ defmodule VagasUniversitariasWeb.VagasLive.Show do
             </div>
           </div>
 
-          <.button class="btn btn-primary btn-block">
+          <.button :if={false} class="btn btn-primary btn-block">
             <.icon name="hero-bookmark" class="w-5 h-5 mr-2" /> Salvar vaga
           </.button>
         </div>
